@@ -1,1 +1,0 @@
-Create examples/swap-form as a pure HTML/CSS implementation (no frameworks) with styles in a separate CSS file, following DESIGN.md conventions, capped at 800px max-width, with a dark/light theme toggle and a two-step swap confirmation flow.

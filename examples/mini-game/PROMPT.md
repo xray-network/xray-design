@@ -1,1 +1,0 @@
-Create examples/mini-game as a pure HTML/CSS implementation (no frameworks) with a static mini game interface only (no game logic), following DESIGN.md visual conventions and capped at 800px max-width.

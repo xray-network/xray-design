@@ -6,12 +6,6 @@ This repository defines the XRAY Design System: the visual and interaction rules
 
 `DESIGN.md` is the **source of truth** for design tokens, component specs, and theme behavior. If any summary in this README differs, follow `DESIGN.md`.
 
-## Examples
-
-Live demo: **[design-md.xray.app](https://design-md.xray.app)**
-
-The `examples/` directory contains pure HTML/CSS reference implementations built against this design system. Open `index.html` at the repo root to browse all examples locally.
-
 ## What It Is
 
 The XRAY Design System is a **content-first finance UI system**. It gives teams a shared language for how to present balances, addresses, transactions, tables, and chain metadata with high clarity and low visual noise.

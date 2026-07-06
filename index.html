@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XRAY Examples</title>
+  <title>XRAY DESIGN.md</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -209,12 +209,55 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      position: relative;
       transition: background-color 120ms ease, color 120ms ease;
     }
 
     .copy-btn:hover {
       color: var(--fg-1);
       background: var(--border);
+    }
+
+    .copy-btn::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: var(--fg-1);
+      color: var(--bg);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease;
+    }
+
+    .copy-btn::before {
+      content: "";
+      position: absolute;
+      bottom: calc(100% + 3px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--fg-1);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease;
+    }
+
+    .copy-btn:hover::after,
+    .copy-btn:hover::before,
+    .copy-btn:focus-visible::after,
+    .copy-btn:focus-visible::before {
+      opacity: 1;
     }
 
     .divider-item {
@@ -234,6 +277,47 @@
       border-top: 1px solid var(--border);
       display: grid;
       gap: 12px;
+    }
+
+    .description-section {
+      margin-top: 24px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .description-title {
+      margin: 0;
+      color: var(--fg-1);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .description-text {
+      margin: 0;
+      color: var(--fg-2);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .prompt-section {
+      margin-top: 22px;
+    }
+
+    .prompt-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: transparent;
+      display: grid;
+      gap: 10px;
+    }
+
+    .prompt-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     .link-btn {
@@ -263,7 +347,7 @@
 <body>
   <main class="wrap">
     <div class="top">
-      <h1>XRAY Example Pages</h1>
+      <h1>XRAY DESIGN.md</h1>
       <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
@@ -284,117 +368,25 @@
       <a class="link-btn" href="./README.md">View README.md</a>
     </div>
 
-    <p>Open any example below.</p>
+    <section class="description-section" aria-labelledby="about-title">
+      <h2 id="about-title" class="description-title">Prompt Workspace</h2>
+      <p class="description-text">This workspace is a focused starter for generating XRAY interface concepts from a single high-quality prompt. Copy the prompt below, use DESIGN.md as your design source of truth, and produce a clean HTML/CSS implementation with styles split into a separate CSS file.</p>
+    </section>
 
-    <ul>
-      <li>
-        <div class="example-item">
-          <div class="item-head">
-            <div>
-              <div class="name">Send Form</div>
-              <div class="path">examples/send-form/index.html</div>
-            </div>
-            <a class="open-btn" href="./examples/send-form/index.html">Open Example</a>
-          </div>
-          <details class="prompt-collapse">
-            <summary>
-              <span class="prompt-label">Prompt</span>
-              <svg class="prompt-chevron" viewBox="0 0 16 16" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <div class="prompt-body">
-              <p id="prompt-send" class="prompt-full">Create examples/send-form as a pure HTML/CSS implementation (no frameworks) with styles in a separate CSS file, strictly following the conventions in DESIGN.md, with a working dark/light theme toggle where the background is #000 in dark mode and #fff in light mode, capped at 800px max-width, featuring a security icon with trust/security messaging, and implementing a two-step crypto multi-asset send flow: step 1 is a form to select and fill in multiple assets/amounts/recipient, and step 2 is an awaiting transaction signature confirmation/loading state.</p>
-              <button class="copy-btn" type="button" data-copy-target="prompt-send" aria-label="Copy prompt">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
-                  <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.5"/>
-                </svg>
-              </button>
-            </div>
-          </details>
+    <section class="prompt-section" aria-label="Copyable prompt">
+      <div class="prompt-card">
+        <div class="prompt-card-head">
+          <span class="prompt-label">Prompt</span>
+          <button class="copy-btn" type="button" data-copy-target="prompt-main" data-tip="COPY" aria-label="Copy prompt">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </button>
         </div>
-      </li>
-      <li class="divider-item"><hr class="divider" /></li>
-      <li>
-        <div class="example-item">
-          <div class="item-head">
-            <div>
-              <div class="name">Swap Form</div>
-              <div class="path">examples/swap-form/index.html</div>
-            </div>
-            <a class="open-btn" href="./examples/swap-form/index.html">Open Example</a>
-          </div>
-          <details class="prompt-collapse">
-            <summary>
-              <span class="prompt-label">Prompt</span>
-              <svg class="prompt-chevron" viewBox="0 0 16 16" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <div class="prompt-body">
-              <p id="prompt-swap" class="prompt-full">Create examples/swap-form as a pure HTML/CSS implementation (no frameworks) with styles in a separate CSS file, following DESIGN.md conventions, capped at 800px max-width, with a dark/light theme toggle and a two-step swap confirmation flow.</p>
-              <button class="copy-btn" type="button" data-copy-target="prompt-swap" aria-label="Copy prompt">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
-                  <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.5"/>
-                </svg>
-              </button>
-            </div>
-          </details>
-        </div>
-      </li>
-      <li class="divider-item"><hr class="divider" /></li>
-      <li>
-        <div class="example-item">
-          <div class="item-head">
-            <div>
-              <div class="name">Stake Form</div>
-              <div class="path">examples/stake-form/index.html</div>
-            </div>
-            <a class="open-btn" href="./examples/stake-form/index.html">Open Example</a>
-          </div>
-          <details class="prompt-collapse">
-            <summary>
-              <span class="prompt-label">Prompt</span>
-              <svg class="prompt-chevron" viewBox="0 0 16 16" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <div class="prompt-body">
-              <p id="prompt-stake" class="prompt-full">Create examples/stake-form as a pure HTML/CSS implementation (no frameworks) with styles in a separate CSS file, following DESIGN.md conventions, capped at 800px max-width, with a dark/light theme toggle and a two-step staking confirmation flow.</p>
-              <button class="copy-btn" type="button" data-copy-target="prompt-stake" aria-label="Copy prompt">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
-                  <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.5"/>
-                </svg>
-              </button>
-            </div>
-          </details>
-        </div>
-      </li>
-      <li class="divider-item"><hr class="divider" /></li>
-      <li>
-        <div class="example-item">
-          <div class="item-head">
-            <div>
-              <div class="name">Mini Game</div>
-              <div class="path">examples/mini-game/index.html</div>
-            </div>
-            <a class="open-btn" href="./examples/mini-game/index.html">Open Example</a>
-          </div>
-          <details class="prompt-collapse">
-            <summary>
-              <span class="prompt-label">Prompt</span>
-              <svg class="prompt-chevron" viewBox="0 0 16 16" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <div class="prompt-body">
-              <p id="prompt-mini-game" class="prompt-full">Create examples/mini-game as a pure HTML/CSS implementation (no frameworks) with a static mini game interface only (no game logic), following DESIGN.md visual conventions and capped at 800px max-width.</p>
-              <button class="copy-btn" type="button" data-copy-target="prompt-mini-game" aria-label="Copy prompt">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
-                  <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.5"/>
-                </svg>
-              </button>
-            </div>
-          </details>
-        </div>
-      </li>
-    </ul>
+        <p id="prompt-main" class="prompt-full">Create a send form UI as a pure HTML/CSS implementation (no frameworks, no build tools, no external UI libraries), with styles in a separate CSS file. Follow DESIGN.md strictly as the design source of truth: https://design-md.xray.app/DESIGN.md. Required output: 1) send-form.html, 2) send-form.css. Layout constraints: responsive on desktop and mobile, max-width 800px, centered content. Theme requirements: include a working dark/light theme toggle with #000 background in dark mode and #fff background in light mode, and ensure readable contrast in both themes. UI content: include a security icon and concise trust/security messaging. Flow requirements: implement a two-step crypto multi-asset send flow where step 1 is a form to choose multiple assets, enter amounts, and set recipient; step 2 is an awaiting-signature confirmation/loading state. Use semantic HTML, keyboard-accessible controls, clear form labels, and polished spacing/typography consistent with DESIGN.md.</p>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -435,8 +427,10 @@
         navigator.clipboard.writeText(text).then(function () {
           const prev = btn.getAttribute("aria-label");
           btn.setAttribute("aria-label", "Copied");
+          btn.setAttribute("data-tip", "COPIED");
           setTimeout(function () {
             btn.setAttribute("aria-label", prev || "Copy prompt");
+            btn.setAttribute("data-tip", "COPY");
           }, 1200);
         });
       });
