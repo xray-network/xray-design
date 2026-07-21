@@ -59,13 +59,13 @@ colors:
   opacity_variants:
     border-soft:  "rgba(255,255,255,0.06)"   # divider on chip
     accent-soft:  "rgba(25,64,237,0.12)"     # blue-500 @ 12%
-    shadow-menu:  "rgba(0,0,0,0.5)"
-    shadow-modal: "rgba(0,0,0,0.6)"
   semantic:
     # Two themes. Light is the default; dark is opt-in via
     # <html data-theme="dark">. Each token below lists { dark, light }.
     primary:
       accent:       { dark: "#1940ed", light: "#1940ed" }   # blue-500 (brand, both)
+      action-accent:{ dark: "#1940ed", light: "#1940ed" }   # primary buttons + logo square
+      link:         { dark: "#535cdc", light: "#535cdc" }   # inline and resource links only
       accent-hover: { dark: "#3f5ff0", light: "#3f5ff0" }   # chroma parity across themes
       accent-press: { dark: "#0f2fbf", light: "#0f2fbf" }
       accent-soft:  { dark: "rgba(25,64,237,0.12)", light: "rgba(25,64,237,0.10)" }
@@ -74,7 +74,7 @@ colors:
       bg-chip:      { dark: "#1f2937", light: "#f3f4f6" }
       bg-hover:     { dark: "#2a3142", light: "#e5e7eb" }
     surfaces:
-      bg:        { dark: "#000000", light: "#f9fafb" }      # root canvas
+      bg:        { dark: "#000000", light: "#ffffff" }      # root canvas — exact black / white
       bg-panel:  { dark: "#0e0e18", light: "#ffffff" }      # cards, panels
       bg-chip:   { dark: "#1f2937", light: "#f3f4f6" }      # selected chip, gray buttons
       bg-input:  { dark: "transparent", light: "transparent" }
@@ -167,15 +167,14 @@ radius:
   radius-full: "50%"       # avatars, status dots
 
 elevation:
-  philosophy: "Flat on DARK — 1px hairline borders carry everyday elevation; shadows only on floating surfaces. LIGHT reintroduces a soft card shadow because hairlines vanish on white."
+  philosophy: "Flat in both themes — surface steps and 1px hairline borders carry all elevation. Shadows are never used."
   levels:
-    base:    { bg: { dark: "#000000", light: "#f9fafb" } }
+    base:    { bg: { dark: "#000000", light: "#ffffff" } }
     surface: { bg: { dark: "#0e0e18", light: "#ffffff" }, border: { dark: "1px solid #1e2232", light: "1px solid #e5e7eb" } }
     chip:    { bg: { dark: "#1f2937", light: "#f3f4f6" }, border: none }
   shadows:
-    shadow-card:  { dark: "none",                      light: "0 1px 3px rgba(0,0,0,0.08)" }
-    shadow-menu:  { dark: "0 4px 12px rgba(0,0,0,0.5)", light: "0 4px 12px rgba(0,0,0,0.12)" }
-    shadow-modal: { dark: "0 16px 40px rgba(0,0,0,0.6)", light: "0 16px 40px rgba(0,0,0,0.16)" }
+    allowed: false
+    rule: "Do not use box-shadow or drop-shadow on cards, controls, menus, modals, icons, or decorative elements in either theme."
 
 motion:
   ease:          "cubic-bezier(0.16, 1, 0.3, 1)"
@@ -187,7 +186,7 @@ components:
   Button:
     geometry: { height: "40px", radius: "100px", padding: "0 18px", font: "16px/500 sans" }
     variants:
-      primary: { bg: blue-500, text: white }
+      primary: { bg: action-accent, text: white }
       gray:    { bg: gray-800, text: white }
       outline: { bg: transparent, border: "1px gray-900", text: white }
       success: { bg: green-500, text: green-950 }
@@ -274,7 +273,7 @@ XRAY/Network is a multi-blockchain mini app hub — a single shell hosting a cat
 - Green (`#15e4a3`) is the "do-it" color — send, receive, online, success
 - System sans-serif stack for UI; system monospace stack for addresses, hashes, tokens
 - Capsules everywhere (`100px` pills); `50%` for avatars
-- Flat on dark: `1px` hairline borders, not shadows, do the elevation work
+- Flat in both themes: surface steps and `1px` hairline borders do all elevation work; shadows are prohibited
 - No emoji, no gradients, no photography, no illustration
 - **Two themes** — dark and light — switchable via `<html data-theme="…">` (see §5a)
 
@@ -284,7 +283,7 @@ XRAY/Network is a multi-blockchain mini app hub — a single shell hosting a cat
 
 All tokens are in the YAML frontmatter under `colors`. Roles:
 
-**Primary** — `accent` (`#1940ed`) drives CTAs, active nav, selected chips, and the wordmark dot. Hover lifts one step to `#3f5ff0`; press drops to `#0f2fbf`. Use it sparingly — at most one blue element per visual region.
+**Primary** — `accent` and `action-accent` (`#1940ed`) drive CTAs, the logo square, active nav, selected chips, and brand states in both themes. Hover uses `#3f5ff0`; press uses `#0f2fbf`. The secondary blue `link` (`#535cdc`) is reserved exclusively for inline and resource links; it must never fill buttons, tags, selected states, or the logo square. Use blue sparingly — at most one action accent per visual region.
 
 **Secondary** — `bg-chip` (`#1f2937`) is the neutral surface for gray buttons and selected chips; `bg-hover` (`#2a3142`) is its hover.
 
@@ -323,19 +322,21 @@ Base unit **4px**; scale 4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64 (`space-1
 
 ---
 
-## 5. Radius, Shadow & Elevation
+## 5. Radius & Elevation
 
 **Radius:** `8px` swatches · `12.43px` rail tiles · `16.66px` mini-app tiles · `20px` cards/panels · `100px` pills (buttons, chips, rows) · `50%` avatars. (The two odd values are exact to the source kit.)
 
-**Elevation is flat.** XRAY leans on *borders*, not shadows, for everyday depth — a `1px` `#1e2232` hairline is enough to lift a card against pure black.
+**Elevation is always flat.** XRAY uses surface color steps and borders—not shadows—for depth in both themes. A `1px` hairline separates cards, menus, modals, and controls from their surrounding surface.
+
+**No-shadow rule:** Do not use `box-shadow`, `drop-shadow`, text shadows, inset shadows, or simulated shadow effects on any component or decorative element. This rule applies equally to light and dark themes.
 
 | Level | Treatment | Use |
 |-------|-----------|-----|
 | Base | `#000000` bg | Root canvas |
 | Surface | `#0e0e18` + `1px #1e2232` | Cards, panels, sidebar |
 | Chip | `#1f2937` fill, no border | Selected chips, gray buttons |
-| Menu | `0 4px 12px rgba(0,0,0,0.5)` | Dropdowns, popovers |
-| Modal | `0 16px 40px rgba(0,0,0,0.6)` | Dialogs, overlays |
+| Menu | Surface step + `1px` hairline | Dropdowns, popovers |
+| Modal | Stronger surface step + `1px` hairline | Dialogs, overlays |
 
 No backdrop-blur, no alpha-overlay dimming; dim states use a flat darker fill. **Motion** is composed and geometric — `cubic-bezier(0.16,1,0.3,1)`, 120–280ms, no bounce or spring.
 
@@ -351,9 +352,13 @@ The system ships **two themes**. **Light is the default** and applies with no at
 
 **Light remap (the deltas that matter):**
 
+**Canvas rule:** the root canvas must use exact white (`#ffffff`) in light theme and exact black (`#000000`) in dark theme. Do not substitute off-white, near-black, or tinted canvas colors.
+
+**Blue usage rule:** primary buttons and the logo square must use electric blue (`#1940ed`) in both light and dark themes. `#535cdc` is link-only and may be used for inline or resource links; never use it for buttons, tags, selected states, data marks, or the logo square. Neutral navigation links may remain on the foreground ramp.
+
 | Token | Dark | Light | Why |
 |-------|------|-------|-----|
-| `--bg` | `#000000` | `#f9fafb` | Page canvas |
+| `--bg` | `#000000` | `#ffffff` | Exact black / white page canvas |
 | `--bg-panel` | `#0e0e18` | `#ffffff` | Panel stays brighter than page |
 | `--bg-chip` | `#1f2937` | `#f3f4f6` | Chips / gray buttons |
 | `--border` | `#1e2232` | `#e5e7eb` | Hairline steps up to read on white |
@@ -362,11 +367,10 @@ The system ships **two themes**. **Light is the default** and applies with no at
 | `--success` | `#15e4a3` | `#15e4a3` | Keep semantic green identical across themes |
 | `--danger` / `--warning` | `#fa2c37` / `#f0b000` | `#fa2c37` / `#f0b000` | Keep semantic red/yellow identical across themes |
 | delta badges | dark fill + bright fg | tinted fill + dark fg | `green-100`/`red-100` backgrounds |
-| `--shadow-card` | `none` | `0 1px 3px rgba(0,0,0,0.08)` | **See below** |
 
-**Where light intentionally breaks the dark rules:**
-- **Light permits a soft card shadow** (`--shadow-card`). On black, flat hairline borders define a card; on white those borders nearly vanish, so light mode re-introduces the elevation that dark deliberately bans. This is a conscious divergence, not an inconsistency.
-- **Accent and status chroma remain the same** in both themes (`blue-400/600`, `green-500`, `red-500`, `yellow-500`, orange identity), preserving token parity across dark and light.
+**Theme parity notes:**
+- **Both themes remain shadow-free.** Light mode uses its stronger `#e5e7eb` hairline to preserve component boundaries on white surfaces.
+- **Brand, action, and status chroma remain the same** in both themes. Buttons and the logo square use `#1940ed`; link-only text uses `#535cdc`; status colors retain their existing green, red, yellow, and orange values.
 - The solid **Receive / success** button keeps the same bright fill + dark ink treatment in both themes.
 
 Vivid **Tag** fills (`preview` red, `mainnet` blue, `beta` yellow) are loud labels by design and stay on the same brand palette in both themes — only their dot-ring adapts.
@@ -420,8 +424,7 @@ Terse, technical, second-person. The product addresses "you / your" and never sa
 - Use XRAY Blue only for actions, active states, and the brand dot — one blue element per region
 - Use Green for the functional "do-it" role (send, receive, online, success)
 - Pill everything — `100px` buttons/chips/rows, `50%` avatars
-- On **dark**, let borders carry elevation; reserve shadows for menus and modals
-- On **light**, use the soft `--shadow-card` — hairlines alone don't hold a card on white
+- In both themes, let surface steps and hairline borders carry all elevation
 - Drive all component color through semantic tokens (`--bg`, `--fg-1`, `--accent`…) so both themes flow through automatically
 - Use the system monospace stack for all machine data, and the price-tag numeral for balances
 - Keep type compact — headings at `line-height: 1`
@@ -431,6 +434,6 @@ Terse, technical, second-person. The product addresses "you / your" and never sa
 - Don't add colored left-border accent cards, multi-stop gradients, or glows
 - Don't introduce photography, illustration, textures, or patterns — none exist in the system
 - Don't use emoji, Unicode-glyphs-as-icons, or filled (solid) heroicons
-- Don't put thin/subtle shadows on cards **in dark** — borders do that job there (light is the exception, via `--shadow-card`)
+- Don't use shadows anywhere—cards, menus, modals, controls, icons, and decorative elements remain shadow-free in both themes
 - Don't hardcode hex values in components — use semantic tokens, or a theme will break
 - Don't relax line-heights or let whitespace sprawl — XRAY is dense and dark
