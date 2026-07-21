@@ -1,391 +1,187 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A live analysis and component reference for the XRAY/Network design system.">
   <title>XRAY/Design — Design System Analysis</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #fff; --panel: #fff; --chip: #f3f4f6; --chip-hover: #e5e7eb;
-      --border: #e5e7eb; --border-strong: #d1d5db; --border-soft: rgba(0,0,0,.06);
-      --fg: #0e0e18; --fg-2: #374151; --fg-3: #6e758d; --fg-4: #9ca3af;
-      --blue: #1940ed; --action-blue: #1940ed; --link: #535cdc; --blue-hover: #3f5ff0; --blue-press: #0f2fbf; --blue-soft: rgba(25,64,237,.1);
-      --green: #15e4a3; --green-bg: #c7f9e1; --red: #fa2c37; --red-bg: #fee2e2;
-      --yellow: #f0b000; --orange: #f85e08;
-      --sans: "-apple-system-body", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      --mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
-      --ease: cubic-bezier(.16,1,.3,1);
-    }
-    html[data-theme="dark"] {
-      color-scheme: dark;
-      --bg: #000; --panel: #0e0e18; --chip: #1f2937; --chip-hover: #2a3142;
-      --border: #1e2232; --border-strong: #1f2937; --border-soft: rgba(255,255,255,.06);
-      --fg: #fff; --fg-2: #d1d5db; --fg-3: #6e758d; --fg-4: #55556d;
-      --action-blue: #1940ed; --blue-soft: rgba(25,64,237,.12); --green-bg: #075c42; --red-bg: #420409;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
-    body { margin: 0; background: var(--bg); color: var(--fg-2); font: 500 14px/1.4 var(--sans); }
-    button, input, select { font: inherit; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    a { color: inherit; }
-    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--blue-soft); outline-offset: 2px; }
-    .shell { width: min(1240px, calc(100% - 32px)); margin: 0 auto; }
-    .mono { font-family: var(--mono); }
-    .ticker { font-family: var(--mono); }
-    .numeric-glyph { font-family: var(--mono); }
-    .balance-number .numeric-decimal,
-    .type-sample.numeric .numeric-decimal,
-    .receipt-total strong .numeric-decimal { margin-left: .12em; color: var(--fg-3); font-size: .55em; }
-    .muted { color: var(--fg-3); }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-    .nav { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(12px); }
-    .nav-inner { min-height: 68px; display: flex; align-items: center; gap: 24px; }
-    .brand { display: inline-flex; align-items: flex-end; gap: 10px; color: var(--fg); text-decoration: none; white-space: nowrap; }
-    .brand-logo { display: block; width: 134px; height: auto; color: var(--fg); }
-    .brand-label { color: var(--fg); font: 500 14px/1 var(--mono); transform: translateY(2px); font-weight: 700; }
-    .nav-links { margin-left: auto; display: flex; align-items: center; gap: 4px; }
-    .nav-links a { text-decoration: none; color: var(--fg-3); padding: 9px 12px; border-radius: 100px; transition: .18s var(--ease); }
-    .nav-links a:hover { color: var(--fg); background: var(--chip); }
-    .theme-toggle { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 50%; background: var(--panel); color: var(--fg); cursor: pointer; display: grid; place-items: center; }
-    .theme-icon { width: 18px; height: 18px; display: block; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-    .theme-icon-sun { display: none; }
-    html[data-theme="dark"] .theme-icon-moon { display: none; }
-    html[data-theme="dark"] .theme-icon-sun { display: block; }
-    .button { min-height: 40px; padding: 0 18px; border: 0; border-radius: 100px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #fff; background: var(--action-blue); font-size: 16px; text-decoration: none; cursor: pointer; }
-    .button:hover { background: var(--blue-hover); }
-    .button:active { background: var(--blue-press); }
-    .button.secondary { background: var(--chip); color: var(--fg); }
-    .button.secondary:hover { background: var(--chip-hover); }
-    .button.outline { background: transparent; color: var(--fg); border: 1px solid var(--border); }
-    .button.success { background: var(--green); color: #011a0f; }
-    .button.small { min-height: 32px; font-size: 14px; padding: 0 13px; }
-
-    .hero { min-height: 660px; display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 64px; padding: 88px 0 72px; }
-    .eyebrow, .section-label { color: var(--fg-3); text-transform: uppercase; letter-spacing: .1em; font: 500 12px/1.3 var(--mono); }
-    .eyebrow { display: flex; align-items: center; gap: 10px; }
-    .status-dot { width: 10px; height: 10px; background: var(--green); border-radius: 50%; outline: 3px solid var(--green-bg); }
-    h1 { max-width: 760px; margin: 22px 0 20px; color: var(--fg); font-size: clamp(48px, 7vw, 84px); line-height: .95; letter-spacing: -.055em; }
-    .hero-copy { max-width: 610px; color: var(--fg-2); font-size: 17px; line-height: 1.55; }
-    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
-    .hero-note { margin-top: 18px; color: var(--fg-3); font: 500 12px/1.4 var(--mono); }
-    .prompt-section { padding: 76px 0; border-top: 1px solid var(--border); }
-    .hero-prompt { padding: 24px; border: 1px solid var(--border); border-radius: 20px; background: var(--panel); }
-    .hero-prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
-    .hero-prompt-label { color: var(--fg-3); font: 500 11px/1 var(--mono); letter-spacing: .1em; }
-    .hero-prompt-copy { max-width: 900px; margin: 0; color: var(--fg-2); font: 500 13px/1.65 var(--mono); }
-    .hero-prompt-copy a { color: var(--link); text-decoration: none; overflow-wrap: anywhere; }
-    .prompt-parameters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--border); list-style: none; }
-    .prompt-parameters li { position: relative; padding: 10px 0 10px 22px; color: var(--fg-2); font: 500 13px/1.5 var(--mono); border-bottom: 1px solid var(--border-soft); }
-    .prompt-parameters li::before { content: ""; position: absolute; left: 0; top: 16px; width: 8px; height: 8px; border: 2px solid var(--blue); border-radius: 50%; }
-    .prompt-parameters strong { color: var(--fg); }
-    .copy-control { width: 32px; height: 32px; flex: none; position: relative; display: grid; place-items: center; padding: 0; border: 1px solid var(--border); border-radius: 50%; background: var(--chip); color: var(--fg); cursor: pointer; }
-    .copy-control:hover { background: var(--chip-hover); }
-    .copy-control svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-    .copy-control::after { content: attr(data-tip); position: absolute; right: 0; bottom: calc(100% + 7px); padding: 5px 8px; border-radius: 8px; background: var(--fg); color: var(--bg); font: 700 10px/1 var(--sans); letter-spacing: .06em; opacity: 0; pointer-events: none; }
-    .copy-control:hover::after, .copy-control:focus-visible::after, .copy-control.copied::after { opacity: 1; }
-    .balance-card { border: 1px solid var(--border); border-radius: 20px; background: var(--panel); padding: 30px; }
-    .balance-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .tag { min-height: 22px; padding: 3px 10px; border-radius: 100px; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; line-height: 1; }
-    .tag.blue { background: var(--blue); color: #fff; }
-    .tag.green { background: var(--green-bg); color: color-mix(in srgb, var(--green) 65%, var(--fg)); }
-    .tag.red { background: var(--red); color: #fff; }
-    .balance-label { color: var(--fg-3); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
-    .balance-number { margin: 28px 0 8px; color: var(--fg); font-family: var(--mono); font-size: clamp(43px, 5vw, 64px); line-height: .9; font-weight: 900; letter-spacing: -.045em; white-space: nowrap; }
-    .balance-number .ticker, .receipt-total .ticker { margin-left: .35em; color: var(--fg-3); font: inherit; font-family: var(--mono); font-size: .55em; letter-spacing: .02em; }
-    .balance-meta { display: flex; justify-content: space-between; gap: 12px; color: var(--fg-3); }
-    .spark { height: 100px; display: flex; align-items: end; gap: 5px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
-    .spark i { flex: 1; min-width: 4px; height: var(--h); border-radius: 8px 8px 2px 2px; background: var(--bar, var(--chip)); transition: .18s var(--ease); }
-    .spark:hover i { opacity: .68; }
-
-    section.spec { padding: 76px 0; border-top: 1px solid var(--border); }
-    .section-head { display: grid; grid-template-columns: 200px 1fr; gap: 32px; margin-bottom: 36px; }
-    .section-heading { max-width: 760px; margin: 0; color: var(--fg); font-size: clamp(30px, 4vw, 48px); line-height: 1; letter-spacing: -.035em; }
-    .section-intro { max-width: 680px; margin: 14px 0 0; color: var(--fg-3); font-size: 16px; }
-    .panel { border: 1px solid var(--border); border-radius: 20px; background: var(--panel); overflow: hidden; }
-    .panel-title { padding: 16px 20px; border-bottom: 1px solid var(--border); color: var(--fg); font-size: 13px; }
-
-    .palette { display: grid; grid-template-columns: repeat(5, 1fr); }
-    .swatch { min-height: 180px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; color: #fff; }
-    .swatch.light-ink { color: #0e0e18; }
-    .swatch strong { font-size: 14px; }
-    .swatch small { font: 500 12px/1.5 var(--mono); opacity: .7; }
-    .semantic-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 12px; }
-    .token { min-height: 110px; padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); }
-    .token-dot { width: 16px; height: 16px; border-radius: 50%; margin-bottom: 20px; }
-    .token strong { display: block; color: var(--fg); }
-    .token span { color: var(--fg-3); font: 500 12px var(--mono); }
-
-    .type-list { border-top: 1px solid var(--border); }
-    .type-row { min-height: 110px; padding: 22px 0; display: grid; grid-template-columns: 200px 1fr; gap: 32px; align-items: center; border-bottom: 1px solid var(--border); }
-    .type-meta { color: var(--fg-3); font: 500 12px/1.6 var(--mono); }
-    .type-meta strong { color: var(--fg); }
-    .type-sample { color: var(--fg); overflow-wrap: anywhere; }
-    .type-sample.display { font-size: clamp(34px, 5vw, 54px); line-height: 1; font-weight: 700; letter-spacing: -.035em; }
-    .type-sample.heading { font-size: 30px; line-height: 1; font-weight: 700; }
-    .type-sample.body { font-size: 14px; }
-    .type-sample.machine { font: 500 20px/1.2 var(--mono); letter-spacing: .058em; text-transform: uppercase; }
-    .type-sample.numeric { font-family: var(--mono); font-size: 48px; line-height: 1; font-weight: 900; letter-spacing: -.02em; }
-
-    .component-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .component-cell { min-height: 180px; padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); display: flex; flex-direction: column; justify-content: space-between; }
-    .component-cell.wide { grid-column: span 2; }
-    .cell-label { color: var(--fg-3); font: 500 12px var(--mono); }
-    .button-stack, .tag-stack, .avatar-stack { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .avatar { width: 40px; height: 40px; flex: none; position: relative; overflow: hidden; isolation: isolate; border-radius: 50%; background: var(--a); }
-    .avatar .triangle { position: absolute; inset: -8px; transform-origin: center; }
-    .avatar .triangle:nth-child(1) { background: var(--b); clip-path: polygon(0 0, 100% 16%, 24% 72%); transform: rotate(var(--r1)); }
-    .avatar .triangle:nth-child(2) { background: var(--c); clip-path: polygon(100% 0, 78% 100%, 18% 51%); transform: rotate(var(--r2)); }
-    .avatar .triangle:nth-child(3) { background: var(--d); clip-path: polygon(0 100%, 100% 78%, 49% 20%); transform: rotate(var(--r3)); }
-    .mini-app-grid { display: grid; grid-template-columns: repeat(4, 60px); gap: 10px; }
-    .mini-app { width: 60px; height: 60px; border-radius: 16.66px; background: var(--chip); position: relative; display: grid; place-items: center; color: var(--fg); font: 700 15px var(--mono); overflow: hidden; }
-    .mini-app::before { content: ""; position: absolute; inset: 0 0 auto; height: 6px; background: var(--blue); }
-    .mini-app:nth-child(2)::before { background: var(--green); }
-    .mini-app:nth-child(3)::before { background: var(--orange); }
-    .mini-app:nth-child(4)::before { background: var(--yellow); }
-    .network-status { display: grid; gap: 10px; }
-    .network-status div { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .network-status i { width: 10px; height: 10px; border-radius: 50%; background: var(--green); }
-
-    .asset-list { display: grid; gap: 8px; }
-    .asset-row { min-height: 60px; padding: 8px 16px 8px 10px; border: 1px solid var(--border); border-radius: 100px; display: grid; grid-template-columns: 40px 1fr auto auto; align-items: center; gap: 12px; background: var(--panel); }
-    .asset-row.selected { border-color: transparent; background: var(--chip); }
-    .asset-name { color: var(--fg); font: 500 15px var(--mono); }
-    .asset-name small { display: block; color: var(--fg-3); font: 500 11px var(--sans); }
-    .asset-amount { color: var(--fg); text-align: right; font-family: var(--mono); }
-    .delta { padding: 4px 8px; border-radius: 100px; background: var(--green-bg); color: color-mix(in srgb, var(--green) 65%, var(--fg)); font-family: var(--mono); font-size: 12px; }
-    .delta.down { background: var(--red-bg); color: color-mix(in srgb, var(--red) 70%, var(--fg)); }
-
-    .form-layout { display: grid; grid-template-columns: 1fr .85fr; gap: 12px; align-items: start; }
-    .form-card, .receipt { padding: 24px; }
-    .form-card h3, .receipt h3 { margin: 0 0 24px; color: var(--fg); font-size: 18px; }
-    .field { margin-bottom: 18px; }
-    .field label { display: block; margin-bottom: 7px; color: var(--fg-3); font-size: 12px; }
-    .input, .select { width: 100%; height: 44px; padding: 0 16px; border: 1px solid var(--border-strong); border-radius: 100px; background: transparent; color: var(--fg); font-family: var(--mono); }
-    .fee-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .fee { min-width: 0; padding: 12px; border: 1px solid var(--border); border-radius: 16px; background: transparent; color: var(--fg-3); cursor: pointer; text-align: left; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; }
-    .fee.selected { border-color: var(--blue); background: var(--blue-soft); color: var(--fg); }
-    .fee strong, .fee span { white-space: nowrap; }
-    .fee span { font-family: var(--mono); font-size: 11px; }
-    .submit { width: 100%; min-height: 48px; margin-top: 4px; font-weight: 700; }
-    .security { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; color: var(--fg-3); font-size: 12px; }
-    .shield { width: 14px; height: 16px; border: 1.5px solid var(--green); border-radius: 7px 7px 9px 9px; }
-    .receipt-row { padding: 13px 0; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); }
-    .receipt-row span:first-child { color: var(--fg-3); }
-    .receipt-row span:last-child { color: var(--fg); font-family: var(--mono); text-align: right; }
-    .receipt-total { margin-top: 26px; }
-    .receipt-total strong { display: block; color: var(--fg); font-family: var(--mono); font-size: 34px; font-weight: 900; }
-
-    .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .rule-card { padding: 24px; }
-    .rule-card h3 { margin: 0 0 16px; color: var(--fg); font-size: 18px; }
-    .rule-card ul { list-style: none; margin: 0; padding: 0; }
-    .rule-card li { padding: 11px 0 11px 24px; border-bottom: 1px solid var(--border); position: relative; }
-    .rule-card li:last-child { border: 0; }
-    .rule-card li::before { content: ""; position: absolute; left: 0; top: 17px; width: 9px; height: 9px; border: 2px solid var(--green); border-radius: 50%; }
-    .rule-card.dont li::before { border-color: var(--red); border-radius: 2px; transform: rotate(45deg); }
-    .scale-row { display: flex; align-items: end; gap: 18px; overflow-x: auto; padding: 26px; }
-    .space-token { min-width: 74px; color: var(--fg-3); font: 500 11px/1.4 var(--mono); }
-    .space-bar { width: var(--w); height: var(--w); max-height: 64px; margin-bottom: 10px; border-radius: 8px; background: var(--blue); }
-    .radius-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 12px; }
-    .radius-token { height: 110px; display: grid; place-items: center; border: 1px solid var(--border); background: var(--panel); color: var(--fg-3); font-family: var(--mono); }
-
-    footer { margin-top: 40px; padding: 50px 0; border-top: 1px solid var(--border); }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
-    .footer-title { max-width: 420px; margin: 18px 0; color: var(--fg); font-size: 24px; line-height: 1.1; }
-    .footer-col { display: grid; align-content: start; gap: 10px; }
-    .footer-col strong { margin-bottom: 4px; color: var(--fg); }
-    .footer-col a { color: var(--link); text-decoration: none; }
-    .footer-col a:hover { color: var(--fg); }
-    .footer-bottom { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 16px; color: var(--fg-4); font-size: 12px; }
-
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .nav .button.small { margin-left: auto; }
-      .hero { min-height: 0; grid-template-columns: 1fr; gap: 44px; padding-top: 64px; }
-      .section-head { grid-template-columns: 1fr; gap: 12px; }
-      .palette { grid-template-columns: repeat(2, 1fr); }
-      .semantic-grid, .component-grid { grid-template-columns: repeat(2, 1fr); }
-      .form-layout { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .footer-grid > :first-child { grid-column: 1 / -1; }
-    }
-    @media (max-width: 620px) {
-      .shell { width: min(100% - 24px, 1240px); }
-      .nav .button.small { display: none; }
-      .nav-inner { gap: 10px; }
-      .theme-toggle { margin-left: auto; }
-      h1 { font-size: 48px; }
-      .prompt-section { padding: 56px 0; }
-      .hero-prompt { padding: 18px; }
-      .prompt-parameters { grid-template-columns: 1fr; }
-      section.spec { padding: 56px 0; }
-      .palette, .semantic-grid, .component-grid, .rules-grid, .radius-grid { grid-template-columns: 1fr; }
-      .component-cell.wide { grid-column: auto; }
-      .type-row { grid-template-columns: 1fr; gap: 12px; }
-      .asset-row { grid-template-columns: 40px 1fr auto; }
-      .asset-row .delta { display: none; }
-      .fee-grid { grid-template-columns: 1fr; }
-      .mini-app-grid { grid-template-columns: repeat(4, 52px); }
-      .mini-app { width: 52px; height: 52px; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .footer-grid > :first-child { grid-column: auto; }
-      .footer-bottom { flex-direction: column; }
-    }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
-  </style>
+  <script>
+    (function () {
+      var saved = localStorage.getItem('xray-theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    }());
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            white: '#FFFFFF',
+            black: '#000000',
+            gray: { 50: '#F9FAFB', 100: '#F3F4F6', 200: '#E5E7EB', 300: '#D1D5DB', 400: '#9CA3AF', 500: '#6E758D', 600: '#55556D', 700: '#374151', 800: '#1F2937', 900: '#1E2232', 950: '#0E0E18' },
+            blue: { 50: '#C3CDFA', 100: '#B0BEF9', 200: '#8B9EF6', 300: '#657FF3', 400: '#3F5FF0', 500: '#1940ED', 600: '#0F2FBF', 700: '#0B228B', 800: '#071657', 900: '#030923', 950: '#010209' },
+            red: { 50: '#FEF3F2', 100: '#FFE2E1', 200: '#FFCACA', 300: '#FFA2A2', 400: '#FF6467', 500: '#FA2C37', 600: '#E7000B', 700: '#C10008', 800: '#9E0812', 900: '#82181A', 950: '#460809' },
+            green: { 50: '#F0FCFA', 100: '#E6FCF9', 200: '#BEF7EC', 300: '#9DF5E2', 400: '#54EBC3', 500: '#15E4A3', 600: '#10CC8A', 700: '#0CAB6B', 800: '#07874D', 900: '#046635', 950: '#02421E' },
+            orange: { 50: '#FFF7ED', 100: '#FFECD4', 200: '#FFD6A7', 300: '#FFB869', 400: '#FF8905', 500: '#FF6900', 600: '#F54900', 700: '#CA3500', 800: '#9F2D00', 900: '#7F2A0C', 950: '#441306' },
+            yellow: { 50: '#FEFCE8', 100: '#FEF9C2', 200: '#FEF186', 300: '#FFE020', 400: '#FEC700', 500: '#F0B000', 600: '#D18700', 700: '#A66000', 800: '#884B00', 900: '#724825', 950: '#431F05' }
+          }
+        }
+      }
+    };
+  </script>
 </head>
-<body>
-  <nav class="nav" aria-label="Primary navigation">
-    <div class="shell nav-inner">
-      <a class="brand" href="#top" aria-label="XRAY Design"><svg class="brand-logo" viewBox="0 0 640 96" aria-hidden="true"><path d="M69.3727 32.6864L102.506 0.000732422H147.259L88.0101 57.6489L80.4171 60.5451L46.3635 94.0582H0.345138L59.8238 37.3755L69.3727 32.6864ZM0 0.000732422H46.5936L79.0365 32.4106L88.9305 37.5134L147.489 94.0582H100.435L66.1514 59.7176L56.1424 54.4768L0 0.000732422Z" fill="currentColor"/><path d="M198.99 94.0575H167.928V0H249.15C253.982 0 258.526 0.551657 262.783 1.65497C267.04 2.75828 270.76 4.59714 273.943 7.17154C277.126 9.74594 279.618 13.2627 281.421 17.722C283.223 22.1812 284.124 27.8127 284.124 34.6165C284.124 41.6961 282.974 47.6034 280.673 52.3384C278.372 57.0735 275.131 60.7282 270.951 63.3026C266.771 65.877 261.92 67.532 256.398 68.2675L254.327 68.5434L259.85 71.9912L284.239 94.0575H245.469L220.619 70.6121H198.99V94.0575ZM198.99 31.7203V43.0292H245.699C247.923 43.0292 249.515 42.6155 250.473 41.788C251.432 40.9605 251.911 39.5354 251.911 37.5127C251.911 35.1221 251.432 33.5591 250.473 32.8236C249.515 32.088 247.923 31.7203 245.699 31.7203H198.99Z" fill="currentColor"/><path d="M409.716 78.4732H326.652V52.9591H409.716V78.4732ZM378.538 0L377.618 6.06822L335.396 94.0575H298.121L346.325 0H378.538ZM398.326 94.0575L356.104 6.06822L355.644 0H387.857L436.061 94.0575H398.326Z" fill="currentColor"/><path d="M477.987 60.9581L424.605 0H464.066L493.863 33.2373L523.545 0H562.545L509.049 61.2339V94.0575H477.987V60.9581Z" fill="currentColor"/><path d="M583.269 39.2354H639.703V95.669H583.269V39.2354Z" fill="var(--action-blue)"/></svg><span class="brand-label">DESIGN</span></a>
-      <div class="nav-links">
-        <a href="#prompt">Prompt</a><a href="#foundations">Foundations</a><a href="#type">Type</a><a href="#components">Components</a><a href="#patterns">Patterns</a><a href="#rules">Rules</a>
+<body class="m-0 bg-white font-sans text-sm font-medium leading-[1.4] text-gray-700 antialiased selection:bg-blue-500 selection:text-white dark:bg-black dark:text-gray-300">
+  <nav class="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur-xl dark:border-gray-900 dark:bg-black/90" aria-label="Primary navigation">
+    <div class="mx-auto flex min-h-[68px] w-[min(1240px,calc(100%-32px))] items-center gap-6 max-[620px]:w-[calc(100%-24px)] max-[620px]:gap-2.5">
+      <a class="inline-flex shrink-0 items-end gap-2.5 whitespace-nowrap text-gray-950 no-underline dark:text-white" href="#top" aria-label="XRAY Design">
+        <svg class="block h-auto w-[134px]" viewBox="0 0 640 96" aria-hidden="true"><path d="M69.3727 32.6864L102.506 0.0007H147.259L88.0101 57.6489L46.3635 94.0582H0.345L59.8238 37.3755L69.3727 32.6864ZM0 0.0007H46.594L79.037 32.411L147.489 94.058H100.435L66.151 59.718L0 0.001Z" fill="currentColor"/><path d="M198.99 94.058H167.928V0H249.15C271.6 0 284.124 10.7 284.124 34.617C284.124 55.2 274.4 66.3 256.398 68.268L284.239 94.058H245.469L220.619 70.612H198.99V94.058ZM198.99 31.72V43.029H245.699C249.9 43.029 251.911 41.4 251.911 37.513C251.911 33.5 249.9 31.72 245.699 31.72H198.99Z" fill="currentColor"/><path d="M409.716 78.473H326.652V52.959H409.716V78.473ZM378.538 0L335.396 94.058H298.121L346.325 0H378.538ZM398.326 94.058L356.104 6.068L355.644 0H387.857L436.061 94.058H398.326Z" fill="currentColor"/><path d="M477.987 60.958L424.605 0H464.066L493.863 33.237L523.545 0H562.545L509.049 61.234V94.058H477.987V60.958Z" fill="currentColor"/><path class="text-blue-500" d="M583.269 39.235H639.703V95.669H583.269V39.235Z" fill="currentColor"/></svg>
+        <span class="translate-y-0.5 font-mono text-sm font-bold leading-none">DESIGN</span>
+      </a>
+      <div class="ml-auto flex items-center gap-1 max-[900px]:hidden">
+        <a class="rounded-full px-3 py-2.5 text-gray-500 no-underline transition hover:bg-gray-100 hover:text-gray-950 dark:hover:bg-gray-800 dark:hover:text-white" href="#prompt">Prompt</a>
+        <a class="rounded-full px-3 py-2.5 text-gray-500 no-underline transition hover:bg-gray-100 hover:text-gray-950 dark:hover:bg-gray-800 dark:hover:text-white" href="#foundations">Foundations</a>
+        <a class="rounded-full px-3 py-2.5 text-gray-500 no-underline transition hover:bg-gray-100 hover:text-gray-950 dark:hover:bg-gray-800 dark:hover:text-white" href="#type">Type</a>
+        <a class="rounded-full px-3 py-2.5 text-gray-500 no-underline transition hover:bg-gray-100 hover:text-gray-950 dark:hover:bg-gray-800 dark:hover:text-white" href="#components">Components</a>
+        <a class="rounded-full px-3 py-2.5 text-gray-500 no-underline transition hover:bg-gray-100 hover:text-gray-950 dark:hover:bg-gray-800 dark:hover:text-white" href="#patterns">Patterns</a>
+        <a class="rounded-full px-3 py-2.5 text-gray-500 no-underline transition hover:bg-gray-100 hover:text-gray-950 dark:hover:bg-gray-800 dark:hover:text-white" href="#rules">Rules</a>
       </div>
-      <a class="button small" href="./DESIGN.md">Open DESIGN.md</a>
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme">
-        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 14.1A8.5 8.5 0 0 1 9.9 3.3a8.5 8.5 0 1 0 10.8 10.8Z"/></svg>
-        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>
+      <a class="inline-flex min-h-8 items-center justify-center rounded-full bg-blue-500 px-3.5 text-sm text-white no-underline transition hover:bg-blue-400 active:bg-blue-600 max-[900px]:ml-auto max-[620px]:hidden" href="./DESIGN.md">Open DESIGN.md</a>
+      <button class="group grid size-10 shrink-0 place-items-center rounded-full border border-gray-200 bg-white text-gray-950 outline-none transition hover:bg-gray-100 focus-visible:ring-4 focus-visible:ring-blue-500/15 dark:border-gray-900 dark:bg-gray-950 dark:text-white dark:hover:bg-gray-800 max-[620px]:ml-auto" id="themeToggle" type="button" aria-label="Switch to dark theme">
+        <svg class="size-[18px] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:1.7] dark:hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 14.1A8.5 8.5 0 0 1 9.9 3.3a8.5 8.5 0 1 0 10.8 10.8Z"/></svg>
+        <svg class="hidden size-[18px] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:1.7] dark:block" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>
       </button>
     </div>
   </nav>
 
   <main id="top">
-    <div class="shell hero">
+    <div class="mx-auto grid min-h-[660px] w-[min(1240px,calc(100%-32px))] grid-cols-[1.1fr_.9fr] items-center gap-16 py-[72px] pt-[88px] max-[900px]:min-h-0 max-[900px]:grid-cols-1 max-[900px]:gap-11 max-[900px]:pt-16 max-[620px]:w-[calc(100%-24px)]">
       <div>
-        <div class="eyebrow"><span class="status-dot"></span>Design system · version 1.0.0</div>
-        <h1>Data is the only color.</h1>
-        <p class="hero-copy">The interface language behind XRAY/Network: a multi-chain mini app hub built for balances, transactions, addresses, and the people who need to trust every number they see.</p>
-        <div class="hero-actions"><a class="button" href="./DESIGN.md">Open DESIGN.md</a><a class="button secondary" href="./README.md">Read the overview</a></div>
-        <p class="hero-note">QUIET CANVAS / ELECTRIC BLUE / MACHINE-READABLE DATA</p>
+        <div class="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[.1em] text-gray-500"><span class="size-2.5 rounded-full bg-green-500 ring-[3px] ring-green-200 dark:ring-green-900"></span>Design system · version 1.0.0</div>
+        <h1 class="my-[22px] max-w-[760px] text-[clamp(48px,7vw,84px)] font-bold leading-[.95] tracking-[-.055em] text-gray-950 dark:text-white">Data is the only color.</h1>
+        <p class="max-w-[610px] text-[17px] leading-[1.55]">The interface language behind XRAY/Network: a multi-chain mini app hub built for balances, transactions, addresses, and the people who need to trust every number they see.</p>
+        <div class="mt-[30px] flex flex-wrap gap-2.5"><a class="inline-flex min-h-10 items-center justify-center rounded-full bg-blue-500 px-[18px] text-base text-white no-underline transition hover:bg-blue-400 active:bg-blue-600" href="./DESIGN.md">Open DESIGN.md</a><a class="inline-flex min-h-10 items-center justify-center rounded-full bg-gray-100 px-[18px] text-base text-gray-950 no-underline transition hover:bg-gray-200 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-800" href="./README.md">Read the overview</a></div>
+        <p class="mt-[18px] font-mono text-xs text-gray-500">QUIET CANVAS / ELECTRIC BLUE / MACHINE-READABLE DATA</p>
       </div>
-      <div class="balance-card" aria-label="Example portfolio balance">
-        <div class="balance-top"><span class="balance-label">Portfolio balance</span><span class="tag blue">Mainnet</span></div>
-        <div class="balance-number">84,291<span class="numeric-decimal">.42</span><span class="ticker">USD</span></div>
-        <div class="balance-meta"><span>Across <span class="numeric-glyph">6</span> networks</span><span class="tag green numeric-glyph">+8.24%</span></div>
-        <div class="spark" aria-label="Portfolio activity chart"><i style="--h:34%"></i><i style="--h:57%;--bar:var(--blue)"></i><i style="--h:29%"></i><i style="--h:71%"></i><i style="--h:46%"></i><i style="--h:83%;--bar:var(--blue)"></i><i style="--h:38%"></i><i style="--h:64%"></i><i style="--h:92%;--bar:var(--blue)"></i><i style="--h:53%"></i><i style="--h:76%"></i><i style="--h:44%"></i><i style="--h:88%;--bar:var(--blue)"></i><i style="--h:61%"></i><i style="--h:100%;--bar:var(--blue)"></i><i style="--h:69%"></i></div>
+      <div class="rounded-[20px] border border-gray-200 bg-white p-[30px] dark:border-gray-900 dark:bg-gray-950" aria-label="Example portfolio balance">
+        <div class="flex items-center justify-between gap-3"><span class="text-xs uppercase tracking-[.08em] text-gray-500">Portfolio balance</span><span class="inline-flex min-h-[22px] items-center rounded-full bg-blue-500 px-2.5 text-xs text-white">Mainnet</span></div>
+        <div class="my-7 whitespace-nowrap font-mono text-[clamp(43px,5vw,64px)] font-black leading-[.9] tracking-[-.045em] text-gray-950 dark:text-white">84,291<span class="ml-[.12em] text-[.55em] text-gray-500">.42</span><span class="ml-[.35em] text-[.55em] tracking-[.02em] text-gray-500">USD</span></div>
+        <div class="flex justify-between gap-3 text-gray-500"><span>Across <span class="font-mono">6</span> networks</span><span class="inline-flex min-h-[22px] items-center rounded-full bg-green-200 px-2.5 font-mono text-xs text-green-800 dark:bg-green-900 dark:text-green-500">+8.24%</span></div>
+        <div class="mt-7 flex h-[100px] items-end gap-[5px] border-t border-gray-200 pt-5 dark:border-gray-900" aria-label="Portfolio activity chart">
+          <i class="h-[34%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[57%] flex-1 rounded-t-lg bg-blue-500"></i><i class="h-[29%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[71%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[46%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[83%] flex-1 rounded-t-lg bg-blue-500"></i><i class="h-[38%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[64%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[92%] flex-1 rounded-t-lg bg-blue-500"></i><i class="h-[53%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[76%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[44%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-[88%] flex-1 rounded-t-lg bg-blue-500"></i><i class="h-[61%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i><i class="h-full flex-1 rounded-t-lg bg-blue-500"></i><i class="h-[69%] flex-1 rounded-t-lg bg-gray-100 dark:bg-gray-800"></i>
+        </div>
       </div>
     </div>
 
-    <section class="prompt-section" id="prompt"><div class="shell">
-      <div class="section-head"><div class="section-label">PROMPT / MINI APP</div><div><h2 class="section-heading">Start with the system already decided.</h2><p class="section-intro">Copy this brief when generating or building an XRAY mini app. It carries the essential layout, behavior, and product constraints with it.</p></div></div>
-      <div class="hero-prompt">
-        <div class="hero-prompt-head"><span class="hero-prompt-label">XRAY INTERFACE BRIEF</span><button class="copy-control" id="copyPrompt" type="button" data-tip="COPY" aria-label="Copy design prompt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/></svg></button></div>
+    <section class="scroll-mt-20 border-t border-gray-200 py-[76px] dark:border-gray-900 max-[620px]:py-14" id="prompt"><div class="mx-auto w-[min(1240px,calc(100%-32px))] max-[620px]:w-[calc(100%-24px)]">
+      <div class="mb-9 grid grid-cols-[200px_1fr] gap-8 max-[900px]:grid-cols-1 max-[900px]:gap-3"><div class="font-mono text-xs uppercase tracking-[.1em] text-gray-500">PROMPT / MINI APP</div><div><h2 class="m-0 max-w-[760px] text-[clamp(30px,4vw,48px)] font-bold leading-none tracking-[-.035em] text-gray-950 dark:text-white">Start with the system already decided.</h2><p class="mt-3.5 max-w-[680px] text-base text-gray-500">Copy this brief when generating or building an XRAY mini app. It carries the essential layout, behavior, and product constraints with it.</p></div></div>
+      <div class="rounded-[20px] border border-gray-200 bg-white p-6 dark:border-gray-900 dark:bg-gray-950 max-[620px]:p-[18px]">
+        <div class="mb-[18px] flex items-center justify-between gap-3"><span class="font-mono text-[11px] tracking-[.1em] text-gray-500">XRAY INTERFACE BRIEF</span><button class="group relative grid size-8 shrink-0 place-items-center rounded-full border border-gray-200 bg-gray-100 text-gray-950 outline-none hover:bg-gray-200 focus-visible:ring-4 focus-visible:ring-blue-500/15 dark:border-gray-900 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-800" id="copyPrompt" type="button" aria-label="Copy design prompt"><svg class="size-[15px] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:1.7]" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/></svg><span id="copyTip" class="pointer-events-none absolute bottom-[calc(100%+7px)] right-0 rounded-lg bg-gray-950 px-2 py-[5px] text-[10px] font-bold leading-none tracking-[.06em] text-white opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-black">COPY</span></button></div>
         <div id="heroPrompt">
-          <p class="hero-prompt-copy">Create a responsive XRAY/Network mini app for multichain portfolio activity and asset transfers. Use <a href="https://design.xraynetwork.io/DESIGN.md">https://design.xraynetwork.io/DESIGN.md</a> as the single source of truth for colors, typography, components, themes, spacing, and interaction states. Use <a href="https://design.xraynetwork.io/index.html">https://design.xraynetwork.io/index.html</a> as a visual reference.</p>
-          <ul class="prompt-parameters">
-            <li><strong>Layout:</strong> centered content with a max-width of 1240px and responsive side gutters.</li>
-            <li><strong>Purpose:</strong> keep each mini app focused on one clear job and one primary action.</li>
-            <li><strong>Responsive:</strong> support phone, tablet, and desktop without horizontal overflow.</li>
-            <li><strong>Themes:</strong> provide complete light and dark modes using semantic tokens.</li>
-            <li><strong>Context:</strong> always show the active wallet, account, network, and selected asset where relevant.</li>
-            <li><strong>States:</strong> include loading, empty, error, success, disabled, hover, focus, and pressed states.</li>
-            <li><strong>Data:</strong> use mono type for addresses, hashes, tickers, fees, and machine-readable values.</li>
-            <li><strong>Access:</strong> ensure keyboard navigation, visible focus, clear labels, and touch targets of at least 40px.</li>
+          <p class="m-0 max-w-[900px] font-mono text-[13px] leading-[1.65]">Create a responsive XRAY/Network mini app for multichain portfolio activity and asset transfers. Use <a class="break-all text-blue-500 no-underline hover:underline dark:text-blue-400" href="https://design.xraynetwork.io/DESIGN.md">https://design.xraynetwork.io/DESIGN.md</a> as the single source of truth for colors, typography, components, themes, spacing, and interaction states. Use <a class="break-all text-blue-500 no-underline hover:underline dark:text-blue-400" href="https://design.xraynetwork.io/index.html">https://design.xraynetwork.io/index.html</a> as a visual reference.</p>
+          <ul class="mt-5 grid list-none grid-cols-2 gap-x-8 border-t border-gray-200 p-0 pt-[18px] dark:border-gray-900 max-[620px]:grid-cols-1">
+            <li class="relative border-b border-black/[.06] py-2.5 pl-[22px] font-mono text-[13px] leading-[1.5] before:absolute before:left-0 before:top-4 before:size-2 before:rounded-full before:border-2 before:border-blue-500 dark:border-white/[.06]"><strong class="text-gray-950 dark:text-white">Layout:</strong> centered content with a max-width of 1240px and responsive side gutters.</li>
+            <li class="relative border-b border-black/[.06] py-2.5 pl-[22px] font-mono text-[13px] leading-[1.5] before:absolute before:left-0 before:top-4 before:size-2 before:rounded-full before:border-2 before:border-blue-500 dark:border-white/[.06]"><strong class="text-gray-950 dark:text-white">Purpose:</strong> keep each mini app focused on one clear job and one primary action.</li>
+            <li class="relative border-b border-black/[.06] py-2.5 pl-[22px] font-mono text-[13px] leading-[1.5] before:absolute before:left-0 before:top-4 before:size-2 before:rounded-full before:border-2 before:border-blue-500 dark:border-white/[.06]"><strong class="text-gray-950 dark:text-white">Responsive:</strong> support phone, tablet, and desktop without horizontal overflow.</li>
+            <li class="relative border-b border-black/[.06] py-2.5 pl-[22px] font-mono text-[13px] leading-[1.5] before:absolute before:left-0 before:top-4 before:size-2 before:rounded-full before:border-2 before:border-blue-500 dark:border-white/[.06]"><strong class="text-gray-950 dark:text-white">Themes:</strong> provide complete light and dark modes using semantic tokens.</li>
+            <li class="relative border-b border-black/[.06] py-2.5 pl-[22px] font-mono text-[13px] leading-[1.5] before:absolute before:left-0 before:top-4 before:size-2 before:rounded-full before:border-2 before:border-blue-500 dark:border-white/[.06]"><strong class="text-gray-950 dark:text-white">Context:</strong> always show the active wallet, account, network, and selected asset where relevant.</li>
+            <li class="relative border-b border-black/[.06] py-2.5 pl-[22px] font-mono text-[13px] leading-[1.5] before:absolute before:left-0 before:top-4 before:size-2 before:rounded-full before:border-2 before:border-blue-500 dark:border-white/[.06]"><strong class="text-gray-950 dark:text-white">States:</strong> include loading, empty, error, success, disabled, hover, focus, and pressed states.</li>
+            <li class="relative border-b border-black/[.06] py-2.5 pl-[22px] font-mono text-[13px] leading-[1.5] before:absolute before:left-0 before:top-4 before:size-2 before:rounded-full before:border-2 before:border-blue-500 dark:border-white/[.06]"><strong class="text-gray-950 dark:text-white">Data:</strong> use mono type for addresses, hashes, tickers, fees, and machine-readable values.</li>
+            <li class="relative border-b border-black/[.06] py-2.5 pl-[22px] font-mono text-[13px] leading-[1.5] before:absolute before:left-0 before:top-4 before:size-2 before:rounded-full before:border-2 before:border-blue-500 dark:border-white/[.06]"><strong class="text-gray-950 dark:text-white">Access:</strong> ensure keyboard navigation, visible focus, clear labels, and touch targets of at least 40px.</li>
           </ul>
-        </div>
-        <span class="sr-only" id="copyStatus" aria-live="polite"></span>
+        </div><span class="sr-only" id="copyStatus" aria-live="polite"></span>
       </div>
     </div></section>
 
-    <section class="spec" id="foundations"><div class="shell">
-      <div class="section-head"><div class="section-label">01 — Color system</div><div><h2 class="section-heading">Pure structure. One functional accent.</h2><p class="section-intro">Three surface levels create depth. Blue marks action and selection; green, red, yellow, and orange communicate network state and asset identity.</p></div></div>
-      <div class="panel"><div class="panel-title mono">CORE PALETTE</div><div class="palette">
-        <div class="swatch" style="background:#1940ed"><strong>XRAY Blue</strong><small>#1940ED<br>Primary action</small></div>
-        <div class="swatch" style="background:#0e0e18"><strong>Panel</strong><small>#0E0E18<br>Dark surface</small></div>
-        <div class="swatch" style="background:#1f2937"><strong>Chip</strong><small>#1F2937<br>Raised neutral</small></div>
-        <div class="swatch light-ink" style="background:#15e4a3"><strong>Success</strong><small>#15E4A3<br>Online / send</small></div>
-        <div class="swatch light-ink" style="background:#f0b000"><strong>Warning</strong><small>#F0B000<br>Caution / BTC</small></div>
+    <section class="scroll-mt-20 border-t border-gray-200 py-[76px] dark:border-gray-900 max-[620px]:py-14" id="foundations"><div class="mx-auto w-[min(1240px,calc(100%-32px))] max-[620px]:w-[calc(100%-24px)]">
+      <div class="mb-9 grid grid-cols-[200px_1fr] gap-8 max-[900px]:grid-cols-1 max-[900px]:gap-3"><div class="font-mono text-xs uppercase tracking-[.1em] text-gray-500">01 — Color system</div><div><h2 class="m-0 max-w-[760px] text-[clamp(30px,4vw,48px)] font-bold leading-none tracking-[-.035em] text-gray-950 dark:text-white">Pure structure. One functional accent.</h2><p class="mt-3.5 max-w-[680px] text-base text-gray-500">Three surface levels create depth. Blue marks action and selection; green, red, yellow, and orange communicate network state and asset identity.</p></div></div>
+      <div class="overflow-hidden rounded-[20px] border border-gray-200 bg-white dark:border-gray-900 dark:bg-gray-950"><div class="border-b border-gray-200 px-5 py-4 font-mono text-[13px] text-gray-950 dark:border-gray-900 dark:text-white">CORE PALETTE</div><div class="grid grid-cols-5 max-[900px]:grid-cols-2 max-[620px]:grid-cols-1">
+        <div class="flex min-h-[180px] flex-col justify-between bg-blue-500 p-[18px] text-white"><strong>XRAY Blue</strong><small class="font-mono text-xs leading-[1.5] opacity-70">#1940ED<br>Primary action</small></div><div class="flex min-h-[180px] flex-col justify-between bg-gray-950 p-[18px] text-white"><strong>Panel</strong><small class="font-mono text-xs leading-[1.5] opacity-70">#0E0E18<br>Dark surface</small></div><div class="flex min-h-[180px] flex-col justify-between bg-gray-800 p-[18px] text-white"><strong>Chip</strong><small class="font-mono text-xs leading-[1.5] opacity-70">#1F2937<br>Raised neutral</small></div><div class="flex min-h-[180px] flex-col justify-between bg-green-500 p-[18px] text-gray-950"><strong>Success</strong><small class="font-mono text-xs leading-[1.5] opacity-70">#15E4A3<br>Online / send</small></div><div class="flex min-h-[180px] flex-col justify-between bg-yellow-500 p-[18px] text-gray-950"><strong>Warning</strong><small class="font-mono text-xs leading-[1.5] opacity-70">#F0B000<br>Caution / BTC</small></div>
       </div></div>
-      <div class="semantic-grid">
-        <div class="token"><div class="token-dot" style="background:var(--fg)"></div><strong>Foreground <span class="numeric-glyph">1</span></strong><span>--fg</span></div>
-        <div class="token"><div class="token-dot" style="background:var(--fg-3)"></div><strong>Meta text</strong><span>--fg-3</span></div>
-        <div class="token"><div class="token-dot" style="background:var(--border)"></div><strong>Hairline</strong><span>--border</span></div>
-        <div class="token"><div class="token-dot" style="background:var(--red)"></div><strong>Danger</strong><span>--red</span></div>
+      <div class="mt-3 grid grid-cols-4 gap-3 max-[900px]:grid-cols-2 max-[620px]:grid-cols-1">
+        <div class="min-h-[110px] rounded-2xl border border-gray-200 bg-white p-[18px] dark:border-gray-900 dark:bg-gray-950"><div class="mb-5 size-4 rounded-full bg-gray-950 dark:bg-white"></div><strong class="block text-gray-950 dark:text-white">Foreground 1</strong><span class="font-mono text-xs text-gray-500">#0e0e18 / #FFFFFF</span></div><div class="min-h-[110px] rounded-2xl border border-gray-200 bg-white p-[18px] dark:border-gray-900 dark:bg-gray-950"><div class="mb-5 size-4 rounded-full bg-gray-500"></div><strong class="block text-gray-950 dark:text-white">Meta text</strong><span class="font-mono text-xs text-gray-500">#6e758d</span></div><div class="min-h-[110px] rounded-2xl border border-gray-200 bg-white p-[18px] dark:border-gray-900 dark:bg-gray-950"><div class="mb-5 size-4 rounded-full bg-gray-200 dark:bg-gray-900"></div><strong class="block text-gray-950 dark:text-white">Hairline</strong><span class="font-mono text-xs text-gray-500">#e5e7eb / #1e2232</span></div><div class="min-h-[110px] rounded-2xl border border-gray-200 bg-white p-[18px] dark:border-gray-900 dark:bg-gray-950"><div class="mb-5 size-4 rounded-full bg-red-500"></div><strong class="block text-gray-950 dark:text-white">Danger</strong><span class="font-mono text-xs text-gray-500">#fa2c37</span></div>
       </div>
     </div></section>
 
-    <section class="spec" id="type"><div class="shell">
-      <div class="section-head"><div class="section-label">02 — Typography</div><div><h2 class="section-heading">System sans for people. Mono for the chain.</h2><p class="section-intro">Compact hierarchy relies on weight before size. Monospaced strings establish a distinct machine voice for addresses, hashes, and token symbols.</p></div></div>
-      <div class="type-list">
-        <div class="type-row"><div class="type-meta"><strong>DISPLAY</strong><br>54 / 700 / 1.0</div><div class="type-sample display">See every chain clearly.</div></div>
-        <div class="type-row"><div class="type-meta"><strong>PAGE HEADING</strong><br>30 / 700 / 1.0</div><div class="type-sample heading">Your multichain portfolio</div></div>
-        <div class="type-row"><div class="type-meta"><strong>BODY</strong><br>14 / 500 / 1.4</div><div class="type-sample body">Track balances, route assets, and launch mini apps from one quiet, dependable workspace.</div></div>
-        <div class="type-row"><div class="type-meta"><strong>MACHINE</strong><br>20 / 500 / 1.1</div><div class="type-sample machine">addr1q…azf5ek · xray/usdc</div></div>
-        <div class="type-row"><div class="type-meta"><strong>NUMERIC</strong><br>48 / 900 / 1.0</div><div class="type-sample numeric">1,252,251<span class="numeric-decimal">.254221</span></div></div>
+    <section class="scroll-mt-20 border-t border-gray-200 py-[76px] dark:border-gray-900 max-[620px]:py-14" id="type"><div class="mx-auto w-[min(1240px,calc(100%-32px))] max-[620px]:w-[calc(100%-24px)]">
+      <div class="mb-9 grid grid-cols-[200px_1fr] gap-8 max-[900px]:grid-cols-1 max-[900px]:gap-3"><div class="font-mono text-xs uppercase tracking-[.1em] text-gray-500">02 — Typography</div><div><h2 class="m-0 max-w-[760px] text-[clamp(30px,4vw,48px)] font-bold leading-none tracking-[-.035em] text-gray-950 dark:text-white">System sans for people. Mono for the chain.</h2><p class="mt-3.5 max-w-[680px] text-base text-gray-500">Compact hierarchy relies on weight before size. Monospaced strings establish a distinct machine voice for addresses, hashes, and token symbols.</p></div></div>
+      <div class="border-t border-gray-200 dark:border-gray-900">
+        <div class="grid min-h-[110px] grid-cols-[200px_1fr] items-center gap-8 border-b border-gray-200 py-[22px] dark:border-gray-900 max-[620px]:grid-cols-1 max-[620px]:gap-3"><div class="font-mono text-xs leading-[1.6] text-gray-500"><strong class="text-gray-950 dark:text-white">DISPLAY</strong><br>54 / 700 / 1.0</div><div class="text-[clamp(34px,5vw,54px)] font-bold leading-none tracking-[-.035em] text-gray-950 dark:text-white">See every chain clearly.</div></div>
+        <div class="grid min-h-[110px] grid-cols-[200px_1fr] items-center gap-8 border-b border-gray-200 py-[22px] dark:border-gray-900 max-[620px]:grid-cols-1 max-[620px]:gap-3"><div class="font-mono text-xs leading-[1.6] text-gray-500"><strong class="text-gray-950 dark:text-white">PAGE HEADING</strong><br>30 / 700 / 1.0</div><div class="text-[30px] font-bold leading-none text-gray-950 dark:text-white">Your multichain portfolio</div></div>
+        <div class="grid min-h-[110px] grid-cols-[200px_1fr] items-center gap-8 border-b border-gray-200 py-[22px] dark:border-gray-900 max-[620px]:grid-cols-1 max-[620px]:gap-3"><div class="font-mono text-xs leading-[1.6] text-gray-500"><strong class="text-gray-950 dark:text-white">BODY</strong><br>14 / 500 / 1.4</div><div class="text-gray-950 dark:text-white">Track balances, route assets, and launch mini apps from one quiet, dependable workspace.</div></div>
+        <div class="grid min-h-[110px] grid-cols-[200px_1fr] items-center gap-8 border-b border-gray-200 py-[22px] dark:border-gray-900 max-[620px]:grid-cols-1 max-[620px]:gap-3"><div class="font-mono text-xs leading-[1.6] text-gray-500"><strong class="text-gray-950 dark:text-white">MACHINE</strong><br>20 / 500 / 1.1</div><div class="break-all font-mono text-xl uppercase leading-[1.2] tracking-[.058em] text-gray-950 dark:text-white">addr1q…azf5ek · xray/usdc</div></div>
+        <div class="grid min-h-[110px] grid-cols-[200px_1fr] items-center gap-8 border-b border-gray-200 py-[22px] dark:border-gray-900 max-[620px]:grid-cols-1 max-[620px]:gap-3"><div class="font-mono text-xs leading-[1.6] text-gray-500"><strong class="text-gray-950 dark:text-white">NUMERIC</strong><br>48 / 900 / 1.0</div><div class="break-all font-mono text-5xl font-black leading-none tracking-[-.02em] text-gray-950 dark:text-white">1,252,251<span class="ml-[.12em] text-[.55em] text-gray-500">.254221</span></div></div>
       </div>
     </div></section>
 
-    <section class="spec" id="components"><div class="shell">
-      <div class="section-head"><div class="section-label">03 — Components</div><div><h2 class="section-heading">A compact kit for confident actions.</h2><p class="section-intro">Capsules unify controls and asset rows. Hairlines frame content without competing with it.</p></div></div>
-      <div class="component-grid">
-        <div class="component-cell wide"><span class="cell-label">BUTTON / VARIANTS</span><div class="button-stack"><button class="button">Connect wallet</button><button class="button success">Receive</button><button class="button secondary">View activity</button><button class="button outline">Cancel</button></div></div>
-        <div class="component-cell"><span class="cell-label">TAG / STATUS</span><div class="tag-stack"><span class="tag blue">Mainnet</span><span class="tag red">Preview</span><span class="tag green">Online</span></div></div>
-        <div class="component-cell"><span class="cell-label">ACCOUNT / AVATAR</span><div class="avatar-stack"><span class="avatar" style="--a:#f0b000;--b:#1886ee;--c:#f85e08;--d:#da186f;--r1:14deg;--r2:-21deg;--r3:31deg"><i class="triangle"></i><i class="triangle"></i><i class="triangle"></i></span><span class="avatar" style="--a:#1940ed;--b:#f85e08;--c:#da186f;--d:#ffb869;--r1:-12deg;--r2:25deg;--r3:-33deg"><i class="triangle"></i><i class="triangle"></i><i class="triangle"></i></span><span class="avatar" style="--a:#0fb381;--b:#15e4a3;--c:#1940ed;--d:#021;--r1:22deg;--r2:-9deg;--r3:41deg"><i class="triangle"></i><i class="triangle"></i><i class="triangle"></i></span></div></div>
-        <div class="component-cell"><span class="cell-label">MINI APP / TILE</span><div class="mini-app-grid"><div class="mini-app">W</div><div class="mini-app">S</div><div class="mini-app">X</div><div class="mini-app">A</div></div></div>
-        <div class="component-cell"><span class="cell-label">NETWORK / HEALTH</span><div class="network-status"><div><span>Cardano</span><i></i></div><div><span>Bitcoin</span><i></i></div><div><span>Midnight</span><i style="background:var(--yellow)"></i></div></div></div>
+    <section class="scroll-mt-20 border-t border-gray-200 py-[76px] dark:border-gray-900 max-[620px]:py-14" id="components"><div class="mx-auto w-[min(1240px,calc(100%-32px))] max-[620px]:w-[calc(100%-24px)]">
+      <div class="mb-9 grid grid-cols-[200px_1fr] gap-8 max-[900px]:grid-cols-1 max-[900px]:gap-3"><div class="font-mono text-xs uppercase tracking-[.1em] text-gray-500">03 — Components</div><div><h2 class="m-0 max-w-[760px] text-[clamp(30px,4vw,48px)] font-bold leading-none tracking-[-.035em] text-gray-950 dark:text-white">A compact kit for confident actions.</h2><p class="mt-3.5 max-w-[680px] text-base text-gray-500">Capsules unify controls and asset rows. Hairlines frame content without competing with it.</p></div></div>
+      <div class="grid grid-cols-3 gap-3 max-[900px]:grid-cols-2 max-[620px]:grid-cols-1">
+        <div class="col-span-2 flex min-h-[180px] flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-900 dark:bg-gray-950 max-[620px]:col-auto"><span class="font-mono text-xs text-gray-500">BUTTON / VARIANTS</span><div class="flex flex-wrap items-center gap-2"><button class="min-h-10 rounded-full bg-blue-500 px-[18px] text-base text-white hover:bg-blue-400">Connect wallet</button><button class="min-h-10 rounded-full bg-green-500 px-[18px] text-base text-gray-950">Receive</button><button class="min-h-10 rounded-full bg-gray-100 px-[18px] text-base text-gray-950 hover:bg-gray-200 dark:bg-gray-800 dark:text-white">View activity</button><button class="min-h-10 rounded-full border border-gray-200 bg-transparent px-[18px] text-base text-gray-950 dark:border-gray-900 dark:text-white">Cancel</button></div></div>
+        <div class="flex min-h-[180px] flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-900 dark:bg-gray-950"><span class="font-mono text-xs text-gray-500">TAG / STATUS</span><div class="flex flex-wrap gap-2"><span class="rounded-full bg-blue-500 px-2.5 py-1 text-xs text-white">Mainnet</span><span class="rounded-full bg-red-500 px-2.5 py-1 text-xs text-white">Preview</span><span class="rounded-full bg-green-200 px-2.5 py-1 text-xs text-green-800 dark:bg-green-900 dark:text-green-500">Online</span></div></div>
+        <div class="flex min-h-[180px] flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-900 dark:bg-gray-950"><span class="font-mono text-xs text-gray-500">ACCOUNT / AVATAR</span><div class="flex gap-2">
+          <span class="relative isolate size-10 shrink-0 overflow-hidden rounded-full bg-yellow-500"><i class="absolute -inset-2 rotate-[14deg] bg-blue-400 [clip-path:polygon(0_0,100%_16%,24%_72%)]"></i><i class="absolute -inset-2 -rotate-[21deg] bg-orange-500 [clip-path:polygon(100%_0,78%_100%,18%_51%)]"></i><i class="absolute -inset-2 rotate-[31deg] bg-red-500 [clip-path:polygon(0_100%,100%_78%,49%_20%)]"></i></span>
+          <span class="relative isolate size-10 shrink-0 overflow-hidden rounded-full bg-blue-500"><i class="absolute -inset-2 -rotate-12 bg-orange-500 [clip-path:polygon(0_0,100%_16%,24%_72%)]"></i><i class="absolute -inset-2 rotate-[25deg] bg-red-500 [clip-path:polygon(100%_0,78%_100%,18%_51%)]"></i><i class="absolute -inset-2 -rotate-[33deg] bg-orange-300 [clip-path:polygon(0_100%,100%_78%,49%_20%)]"></i></span>
+          <span class="relative isolate size-10 shrink-0 overflow-hidden rounded-full bg-green-700"><i class="absolute -inset-2 rotate-[22deg] bg-green-500 [clip-path:polygon(0_0,100%_16%,24%_72%)]"></i><i class="absolute -inset-2 -rotate-[9deg] bg-blue-500 [clip-path:polygon(100%_0,78%_100%,18%_51%)]"></i><i class="absolute -inset-2 rotate-[41deg] bg-gray-950 [clip-path:polygon(0_100%,100%_78%,49%_20%)]"></i></span>
+        </div></div>
+        <div class="flex min-h-[180px] flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-900 dark:bg-gray-950"><span class="font-mono text-xs text-gray-500">MINI APP / TILE</span><div class="grid grid-cols-4 gap-2.5 max-[620px]:grid-cols-[repeat(4,52px)]"><div class="grid size-[60px] place-items-center rounded-[16.66px] border-t-[6px] border-blue-500 bg-gray-100 font-mono font-bold text-gray-950 dark:bg-gray-800 dark:text-white max-[620px]:size-[52px]">W</div><div class="grid size-[60px] place-items-center rounded-[16.66px] border-t-[6px] border-green-500 bg-gray-100 font-mono font-bold text-gray-950 dark:bg-gray-800 dark:text-white max-[620px]:size-[52px]">S</div><div class="grid size-[60px] place-items-center rounded-[16.66px] border-t-[6px] border-orange-500 bg-gray-100 font-mono font-bold text-gray-950 dark:bg-gray-800 dark:text-white max-[620px]:size-[52px]">X</div><div class="grid size-[60px] place-items-center rounded-[16.66px] border-t-[6px] border-yellow-500 bg-gray-100 font-mono font-bold text-gray-950 dark:bg-gray-800 dark:text-white max-[620px]:size-[52px]">A</div></div></div>
+        <div class="flex min-h-[180px] flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-900 dark:bg-gray-950"><span class="font-mono text-xs text-gray-500">NETWORK / HEALTH</span><div class="grid gap-2.5"><div class="flex justify-between"><span>Cardano</span><i class="size-2.5 rounded-full bg-green-500"></i></div><div class="flex justify-between"><span>Bitcoin</span><i class="size-2.5 rounded-full bg-green-500"></i></div><div class="flex justify-between"><span>Midnight</span><i class="size-2.5 rounded-full bg-yellow-500"></i></div></div></div>
       </div>
     </div></section>
 
-    <section class="spec" id="patterns"><div class="shell">
-      <div class="section-head"><div class="section-label">04 — Asset rows</div><div><h2 class="section-heading">Balances remain the visual subject.</h2><p class="section-intro">Token identity, machine-readable tickers, right-aligned quantities, and semantic deltas make dense financial lists easy to scan.</p></div></div>
-      <div class="asset-list">
-        <div class="asset-row selected"><span class="avatar" style="--a:#f0b000;--b:#1886ee;--c:#f85e08;--d:#da186f;--r1:14deg;--r2:-21deg;--r3:31deg"><i class="triangle"></i><i class="triangle"></i><i class="triangle"></i></span><span class="asset-name">ADA<small>Cardano</small></span><span class="asset-amount">24,891.20</span><span class="delta">+4.8%</span></div>
-        <div class="asset-row"><span class="avatar" style="--a:#1940ed;--b:#f85e08;--c:#da186f;--d:#ffb869;--r1:-12deg;--r2:25deg;--r3:-33deg"><i class="triangle"></i><i class="triangle"></i><i class="triangle"></i></span><span class="asset-name">BTC<small>Bitcoin</small></span><span class="asset-amount">0.4821</span><span class="delta">+2.1%</span></div>
-        <div class="asset-row"><span class="avatar" style="--a:#ffb869;--b:#ca3500;--c:#f85e08;--d:#fa2c37;--r1:-25deg;--r2:12deg;--r3:29deg"><i class="triangle"></i><i class="triangle"></i><i class="triangle"></i></span><span class="asset-name">NIGHT<small>Midnight</small></span><span class="asset-amount">18,420.00</span><span class="delta down">−1.7%</span></div>
-        <div class="asset-row"><span class="avatar" style="--a:#0fb381;--b:#15e4a3;--c:#1940ed;--d:#021;--r1:22deg;--r2:-9deg;--r3:41deg"><i class="triangle"></i><i class="triangle"></i><i class="triangle"></i></span><span class="asset-name">XRAY<small>XRAY/Network</small></span><span class="asset-amount">92,711.06</span><span class="delta">+12.4%</span></div>
+    <section class="scroll-mt-20 border-t border-gray-200 py-[76px] dark:border-gray-900 max-[620px]:py-14" id="patterns"><div class="mx-auto w-[min(1240px,calc(100%-32px))] max-[620px]:w-[calc(100%-24px)]">
+      <div class="mb-9 grid grid-cols-[200px_1fr] gap-8 max-[900px]:grid-cols-1 max-[900px]:gap-3"><div class="font-mono text-xs uppercase tracking-[.1em] text-gray-500">04 — Asset rows</div><div><h2 class="m-0 max-w-[760px] text-[clamp(30px,4vw,48px)] font-bold leading-none tracking-[-.035em] text-gray-950 dark:text-white">Balances remain the visual subject.</h2><p class="mt-3.5 max-w-[680px] text-base text-gray-500">Token identity, machine-readable tickers, right-aligned quantities, and semantic deltas make dense financial lists easy to scan.</p></div></div>
+      <div class="grid gap-2">
+        <div class="grid min-h-[60px] grid-cols-[40px_1fr_auto_auto] items-center gap-3 rounded-full bg-gray-100 py-2 pl-2.5 pr-4 dark:bg-gray-800 max-[620px]:grid-cols-[40px_1fr_auto]"><span class="relative isolate size-10 shrink-0 overflow-hidden rounded-full bg-yellow-500"><i class="absolute -inset-2 rotate-[14deg] bg-blue-400 [clip-path:polygon(0_0,100%_16%,24%_72%)]"></i><i class="absolute -inset-2 -rotate-[21deg] bg-orange-500 [clip-path:polygon(100%_0,78%_100%,18%_51%)]"></i><i class="absolute -inset-2 rotate-[31deg] bg-red-500 [clip-path:polygon(0_100%,100%_78%,49%_20%)]"></i></span><span class="font-mono text-[15px] text-gray-950 dark:text-white">ADA<small class="block font-sans text-[11px] text-gray-500">Cardano</small></span><span class="text-right font-mono text-gray-950 dark:text-white">24,891.20</span><span class="rounded-full bg-green-200 px-2 py-1 font-mono text-xs text-green-800 dark:bg-green-900 dark:text-green-500 max-[620px]:hidden">+4.8%</span></div>
+        <div class="grid min-h-[60px] grid-cols-[40px_1fr_auto_auto] items-center gap-3 rounded-full border border-gray-200 bg-white py-2 pl-2.5 pr-4 dark:border-gray-900 dark:bg-gray-950 max-[620px]:grid-cols-[40px_1fr_auto]"><span class="relative isolate size-10 shrink-0 overflow-hidden rounded-full bg-blue-500"><i class="absolute -inset-2 -rotate-12 bg-orange-500 [clip-path:polygon(0_0,100%_16%,24%_72%)]"></i><i class="absolute -inset-2 rotate-[25deg] bg-red-500 [clip-path:polygon(100%_0,78%_100%,18%_51%)]"></i><i class="absolute -inset-2 -rotate-[33deg] bg-orange-300 [clip-path:polygon(0_100%,100%_78%,49%_20%)]"></i></span><span class="font-mono text-[15px] text-gray-950 dark:text-white">BTC<small class="block font-sans text-[11px] text-gray-500">Bitcoin</small></span><span class="text-right font-mono text-gray-950 dark:text-white">0.4821</span><span class="rounded-full bg-green-200 px-2 py-1 font-mono text-xs text-green-800 dark:bg-green-900 dark:text-green-500 max-[620px]:hidden">+2.1%</span></div>
+        <div class="grid min-h-[60px] grid-cols-[40px_1fr_auto_auto] items-center gap-3 rounded-full border border-gray-200 bg-white py-2 pl-2.5 pr-4 dark:border-gray-900 dark:bg-gray-950 max-[620px]:grid-cols-[40px_1fr_auto]"><span class="relative isolate size-10 shrink-0 overflow-hidden rounded-full bg-orange-300"><i class="absolute -inset-2 -rotate-[25deg] bg-orange-700 [clip-path:polygon(0_0,100%_16%,24%_72%)]"></i><i class="absolute -inset-2 rotate-12 bg-orange-500 [clip-path:polygon(100%_0,78%_100%,18%_51%)]"></i><i class="absolute -inset-2 rotate-[29deg] bg-red-500 [clip-path:polygon(0_100%,100%_78%,49%_20%)]"></i></span><span class="font-mono text-[15px] text-gray-950 dark:text-white">NIGHT<small class="block font-sans text-[11px] text-gray-500">Midnight</small></span><span class="text-right font-mono text-gray-950 dark:text-white">18,420.00</span><span class="rounded-full bg-red-100 px-2 py-1 font-mono text-xs text-red-800 dark:bg-red-950 dark:text-red-300 max-[620px]:hidden">−1.7%</span></div>
+        <div class="grid min-h-[60px] grid-cols-[40px_1fr_auto_auto] items-center gap-3 rounded-full border border-gray-200 bg-white py-2 pl-2.5 pr-4 dark:border-gray-900 dark:bg-gray-950 max-[620px]:grid-cols-[40px_1fr_auto]"><span class="relative isolate size-10 shrink-0 overflow-hidden rounded-full bg-green-700"><i class="absolute -inset-2 rotate-[22deg] bg-green-500 [clip-path:polygon(0_0,100%_16%,24%_72%)]"></i><i class="absolute -inset-2 -rotate-[9deg] bg-blue-500 [clip-path:polygon(100%_0,78%_100%,18%_51%)]"></i><i class="absolute -inset-2 rotate-[41deg] bg-gray-950 [clip-path:polygon(0_100%,100%_78%,49%_20%)]"></i></span><span class="font-mono text-[15px] text-gray-950 dark:text-white">XRAY<small class="block font-sans text-[11px] text-gray-500">XRAY/Network</small></span><span class="text-right font-mono text-gray-950 dark:text-white">92,711.06</span><span class="rounded-full bg-green-200 px-2 py-1 font-mono text-xs text-green-800 dark:bg-green-900 dark:text-green-500 max-[620px]:hidden">+12.4%</span></div>
       </div>
     </div></section>
 
-    <section class="spec"><div class="shell">
-      <div class="section-head"><div class="section-label">05 — Transaction</div><div><h2 class="section-heading">The send flow, fully composed.</h2><p class="section-intro">Clear labels, explicit fee choices, a readable receipt, and security messaging support a high-stakes action without unnecessary chrome.</p></div></div>
-      <div class="form-layout">
-        <form class="panel form-card" id="sendForm"><h3>Send assets</h3>
-          <div class="field"><label for="recipient">Recipient</label><input class="input" id="recipient" value="addr1q…azf5ek" aria-describedby="securityCopy"></div>
-          <div class="field"><label for="asset">Asset</label><select class="select" id="asset"><option>ADA · Cardano</option><option>BTC · Bitcoin</option><option>XRAY · XRAY/Network</option></select></div>
-          <div class="field"><label for="amount">Amount</label><input class="input" id="amount" type="number" value="1250" min="0" step="0.01"></div>
-          <div class="field"><label>Network fee</label><div class="fee-grid" role="group" aria-label="Network fee"><button class="fee" type="button"><strong>Slow</strong><span>5 min · 0.12</span></button><button class="fee selected" type="button"><strong>Standard</strong><span>20 sec · 0.17</span></button><button class="fee" type="button"><strong>Fast</strong><span>5 sec · 0.42</span></button></div></div>
-          <button class="button submit" type="submit">Review transaction</button><div class="security" id="securityCopy"><span class="shield"></span>Protected by multi-layer transaction verification</div>
+    <section class="border-t border-gray-200 py-[76px] dark:border-gray-900 max-[620px]:py-14"><div class="mx-auto w-[min(1240px,calc(100%-32px))] max-[620px]:w-[calc(100%-24px)]">
+      <div class="mb-9 grid grid-cols-[200px_1fr] gap-8 max-[900px]:grid-cols-1 max-[900px]:gap-3"><div class="font-mono text-xs uppercase tracking-[.1em] text-gray-500">05 — Transaction</div><div><h2 class="m-0 max-w-[760px] text-[clamp(30px,4vw,48px)] font-bold leading-none tracking-[-.035em] text-gray-950 dark:text-white">The send flow, fully composed.</h2><p class="mt-3.5 max-w-[680px] text-base text-gray-500">Clear labels, explicit fee choices, a readable receipt, and security messaging support a high-stakes action without unnecessary chrome.</p></div></div>
+      <div class="grid grid-cols-[1fr_.85fr] items-start gap-3 max-[900px]:grid-cols-1">
+        <form class="rounded-[20px] border border-gray-200 bg-white p-6 dark:border-gray-900 dark:bg-gray-950" id="sendForm"><h3 class="mb-6 mt-0 text-lg font-bold text-gray-950 dark:text-white">Send assets</h3>
+          <div class="mb-[18px]"><label class="mb-[7px] block text-xs text-gray-500" for="recipient">Recipient</label><input class="h-11 w-full rounded-full border border-gray-300 bg-transparent px-4 font-mono text-gray-950 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-800 dark:text-white" id="recipient" value="addr1q…azf5ek" aria-describedby="securityCopy"></div>
+          <div class="mb-[18px]"><label class="mb-[7px] block text-xs text-gray-500" for="asset">Asset</label><select class="h-11 w-full rounded-full border border-gray-300 bg-transparent px-4 font-mono text-gray-950 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-800 dark:bg-gray-950 dark:text-white" id="asset"><option>ADA · Cardano</option><option>BTC · Bitcoin</option><option>XRAY · XRAY/Network</option></select></div>
+          <div class="mb-[18px]"><label class="mb-[7px] block text-xs text-gray-500" for="amount">Amount</label><input class="h-11 w-full rounded-full border border-gray-300 bg-transparent px-4 font-mono text-gray-950 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-800 dark:text-white" id="amount" type="number" value="1250" min="0" step="0.01"></div>
+          <div class="mb-[18px]"><label class="mb-[7px] block text-xs text-gray-500">Network fee</label><div class="grid grid-cols-3 gap-2 max-[620px]:grid-cols-1" role="group" aria-label="Network fee"><button class="fee flex min-w-0 flex-col items-start justify-center gap-[3px] rounded-2xl border border-gray-200 bg-transparent p-3 text-left text-gray-500 dark:border-gray-900" type="button" data-fee="0.12"><strong>Slow</strong><span class="whitespace-nowrap font-mono text-[11px]">5 min · 0.12</span></button><button class="fee fee-active flex min-w-0 flex-col items-start justify-center gap-[3px] rounded-2xl border border-blue-500 bg-blue-500/10 p-3 text-left text-gray-950 dark:text-white" type="button" data-fee="0.17"><strong>Standard</strong><span class="whitespace-nowrap font-mono text-[11px]">20 sec · 0.17</span></button><button class="fee flex min-w-0 flex-col items-start justify-center gap-[3px] rounded-2xl border border-gray-200 bg-transparent p-3 text-left text-gray-500 dark:border-gray-900" type="button" data-fee="0.42"><strong>Fast</strong><span class="whitespace-nowrap font-mono text-[11px]">5 sec · 0.42</span></button></div></div>
+          <button class="submit mt-1 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-blue-500 px-[18px] text-base font-bold text-white transition hover:bg-blue-400 active:bg-blue-600" type="submit">Review transaction</button><div class="mt-3 flex items-center justify-center gap-2 text-center text-xs text-gray-500" id="securityCopy"><span class="h-4 w-3.5 rounded-b-[9px] rounded-t-[7px] border-[1.5px] border-green-500"></span>Protected by multi-layer transaction verification</div>
         </form>
-        <aside class="panel receipt"><h3>Transaction preview</h3><div class="receipt-row"><span>From</span><span>Main wallet</span></div><div class="receipt-row"><span>To</span><span>addr1q…azf5ek</span></div><div class="receipt-row"><span>Network</span><span>Cardano</span></div><div class="receipt-row"><span>Fee</span><span id="feeValue">0.17 ADA</span></div><div class="receipt-total"><span class="muted">Total</span><strong>1,250<span class="numeric-decimal">.17</span><span class="ticker">ADA</span></strong></div></aside>
+        <aside class="rounded-[20px] border border-gray-200 bg-white p-6 dark:border-gray-900 dark:bg-gray-950"><h3 class="mb-6 mt-0 text-lg font-bold text-gray-950 dark:text-white">Transaction preview</h3><div class="flex justify-between gap-3 border-b border-gray-200 py-[13px] dark:border-gray-900"><span class="text-gray-500">From</span><span class="text-right font-mono text-gray-950 dark:text-white">Main wallet</span></div><div class="flex justify-between gap-3 border-b border-gray-200 py-[13px] dark:border-gray-900"><span class="text-gray-500">To</span><span class="text-right font-mono text-gray-950 dark:text-white">addr1q…azf5ek</span></div><div class="flex justify-between gap-3 border-b border-gray-200 py-[13px] dark:border-gray-900"><span class="text-gray-500">Network</span><span class="text-right font-mono text-gray-950 dark:text-white">Cardano</span></div><div class="flex justify-between gap-3 border-b border-gray-200 py-[13px] dark:border-gray-900"><span class="text-gray-500">Fee</span><span class="text-right font-mono text-gray-950 dark:text-white" id="feeValue">0.17 ADA</span></div><div class="mt-[26px]"><span class="text-gray-500">Total</span><strong class="block font-mono text-[34px] font-black text-gray-950 dark:text-white">1,250<span class="ml-[.12em] text-[.55em] text-gray-500">.17</span><span class="ml-[.35em] text-[.55em] tracking-[.02em] text-gray-500">ADA</span></strong></div></aside>
       </div>
     </div></section>
 
-    <section class="spec" id="rules"><div class="shell">
-      <div class="section-head"><div class="section-label">06 — Principles</div><div><h2 class="section-heading">Restraint makes the system recognizable.</h2><p class="section-intro">Every choice reinforces legibility, trust, and consistency across chains.</p></div></div>
-      <div class="rules-grid"><div class="panel rule-card"><h3>Do</h3><ul><li>Use blue for actions and selected states.</li><li>Use mono for hashes, addresses, and tickers.</li><li>Let hairlines create depth in both themes.</li><li>Keep financial content dense and scannable.</li></ul></div><div class="panel rule-card dont"><h3>Do not</h3><ul><li>Use gradients, glows, or decorative blue.</li><li>Introduce photography or illustration.</li><li>Hide critical fees or transaction context.</li><li>Use shadows in any theme or component.</li></ul></div></div>
-      <div class="panel" style="margin-top:12px"><div class="panel-title mono">SPACING / 4PX BASE UNIT</div><div class="scale-row"><div class="space-token"><div class="space-bar" style="--w:4px"></div>04 / XS</div><div class="space-token"><div class="space-bar" style="--w:8px"></div>08 / SM</div><div class="space-token"><div class="space-bar" style="--w:16px"></div>16 / MD</div><div class="space-token"><div class="space-bar" style="--w:24px"></div>24 / LG</div><div class="space-token"><div class="space-bar" style="--w:32px"></div>32 / XL</div><div class="space-token"><div class="space-bar" style="--w:48px"></div>48 / 2XL</div><div class="space-token"><div class="space-bar" style="--w:64px"></div>64 / 3XL</div></div></div>
-      <div class="radius-grid"><div class="radius-token" style="border-radius:8px">08 / SM</div><div class="radius-token" style="border-radius:12.43px">12 / MD</div><div class="radius-token" style="border-radius:16.66px">16 / LG</div><div class="radius-token" style="border-radius:20px">20 / XL</div><div class="radius-token" style="border-radius:100px">100 / PILL</div></div>
+    <section class="scroll-mt-20 border-t border-gray-200 py-[76px] dark:border-gray-900 max-[620px]:py-14" id="rules"><div class="mx-auto w-[min(1240px,calc(100%-32px))] max-[620px]:w-[calc(100%-24px)]">
+      <div class="mb-9 grid grid-cols-[200px_1fr] gap-8 max-[900px]:grid-cols-1 max-[900px]:gap-3"><div class="font-mono text-xs uppercase tracking-[.1em] text-gray-500">06 — Principles</div><div><h2 class="m-0 max-w-[760px] text-[clamp(30px,4vw,48px)] font-bold leading-none tracking-[-.035em] text-gray-950 dark:text-white">Restraint makes the system recognizable.</h2><p class="mt-3.5 max-w-[680px] text-base text-gray-500">Every choice reinforces legibility, trust, and consistency across chains.</p></div></div>
+      <div class="grid grid-cols-2 gap-3 max-[620px]:grid-cols-1"><div class="rounded-[20px] border border-gray-200 bg-white p-6 dark:border-gray-900 dark:bg-gray-950"><h3 class="mb-4 mt-0 text-lg font-bold text-gray-950 dark:text-white">Do</h3><ul class="m-0 list-none p-0"><li class="relative border-b border-gray-200 py-[11px] pl-6 before:absolute before:left-0 before:top-[17px] before:size-[9px] before:rounded-full before:border-2 before:border-green-500 dark:border-gray-900">Use blue for actions and selected states.</li><li class="relative border-b border-gray-200 py-[11px] pl-6 before:absolute before:left-0 before:top-[17px] before:size-[9px] before:rounded-full before:border-2 before:border-green-500 dark:border-gray-900">Use mono for hashes, addresses, and tickers.</li><li class="relative border-b border-gray-200 py-[11px] pl-6 before:absolute before:left-0 before:top-[17px] before:size-[9px] before:rounded-full before:border-2 before:border-green-500 dark:border-gray-900">Let hairlines create depth in both themes.</li><li class="relative py-[11px] pl-6 before:absolute before:left-0 before:top-[17px] before:size-[9px] before:rounded-full before:border-2 before:border-green-500">Keep financial content dense and scannable.</li></ul></div><div class="rounded-[20px] border border-gray-200 bg-white p-6 dark:border-gray-900 dark:bg-gray-950"><h3 class="mb-4 mt-0 text-lg font-bold text-gray-950 dark:text-white">Do not</h3><ul class="m-0 list-none p-0"><li class="relative border-b border-gray-200 py-[11px] pl-6 before:absolute before:left-0 before:top-[17px] before:size-[9px] before:rotate-45 before:rounded-sm before:border-2 before:border-red-500 dark:border-gray-900">Use gradients, glows, or decorative blue.</li><li class="relative border-b border-gray-200 py-[11px] pl-6 before:absolute before:left-0 before:top-[17px] before:size-[9px] before:rotate-45 before:rounded-sm before:border-2 before:border-red-500 dark:border-gray-900">Introduce photography or illustration.</li><li class="relative border-b border-gray-200 py-[11px] pl-6 before:absolute before:left-0 before:top-[17px] before:size-[9px] before:rotate-45 before:rounded-sm before:border-2 before:border-red-500 dark:border-gray-900">Hide critical fees or transaction context.</li><li class="relative py-[11px] pl-6 before:absolute before:left-0 before:top-[17px] before:size-[9px] before:rotate-45 before:rounded-sm before:border-2 before:border-red-500">Use shadows in any theme or component.</li></ul></div></div>
+      <div class="mt-3 overflow-hidden rounded-[20px] border border-gray-200 bg-white dark:border-gray-900 dark:bg-gray-950"><div class="border-b border-gray-200 px-5 py-4 font-mono text-[13px] text-gray-950 dark:border-gray-900 dark:text-white">SPACING / 4PX BASE UNIT</div><div class="flex items-end gap-[18px] overflow-x-auto p-[26px]"><div class="min-w-[74px] font-mono text-[11px] text-gray-500"><div class="mb-2.5 size-1 rounded bg-blue-500"></div>04 / XS</div><div class="min-w-[74px] font-mono text-[11px] text-gray-500"><div class="mb-2.5 size-2 rounded bg-blue-500"></div>08 / SM</div><div class="min-w-[74px] font-mono text-[11px] text-gray-500"><div class="mb-2.5 size-4 rounded bg-blue-500"></div>16 / MD</div><div class="min-w-[74px] font-mono text-[11px] text-gray-500"><div class="mb-2.5 size-6 rounded bg-blue-500"></div>24 / LG</div><div class="min-w-[74px] font-mono text-[11px] text-gray-500"><div class="mb-2.5 size-8 rounded-lg bg-blue-500"></div>32 / XL</div><div class="min-w-[74px] font-mono text-[11px] text-gray-500"><div class="mb-2.5 size-12 rounded-lg bg-blue-500"></div>48 / 2XL</div><div class="min-w-[74px] font-mono text-[11px] text-gray-500"><div class="mb-2.5 size-16 rounded-lg bg-blue-500"></div>64 / 3XL</div></div></div>
+      <div class="mt-3 grid grid-cols-5 gap-3 max-[620px]:grid-cols-1"><div class="grid h-[110px] place-items-center rounded-lg border border-gray-200 bg-white font-mono text-gray-500 dark:border-gray-900 dark:bg-gray-950">08 / SM</div><div class="grid h-[110px] place-items-center rounded-[12.43px] border border-gray-200 bg-white font-mono text-gray-500 dark:border-gray-900 dark:bg-gray-950">12 / MD</div><div class="grid h-[110px] place-items-center rounded-[16.66px] border border-gray-200 bg-white font-mono text-gray-500 dark:border-gray-900 dark:bg-gray-950">16 / LG</div><div class="grid h-[110px] place-items-center rounded-[20px] border border-gray-200 bg-white font-mono text-gray-500 dark:border-gray-900 dark:bg-gray-950">20 / XL</div><div class="grid h-[110px] place-items-center rounded-[100px] border border-gray-200 bg-white font-mono text-gray-500 dark:border-gray-900 dark:bg-gray-950">100 / PILL</div></div>
     </div></section>
   </main>
 
-  <footer><div class="shell"><div class="footer-grid"><div><a class="brand" href="#top" aria-label="XRAY Design"><svg class="brand-logo" viewBox="0 0 640 96" aria-hidden="true"><path d="M69.3727 32.6864L102.506 0.000732422H147.259L88.0101 57.6489L80.4171 60.5451L46.3635 94.0582H0.345138L59.8238 37.3755L69.3727 32.6864ZM0 0.000732422H46.5936L79.0365 32.4106L88.9305 37.5134L147.489 94.0582H100.435L66.1514 59.7176L56.1424 54.4768L0 0.000732422Z" fill="currentColor"/><path d="M198.99 94.0575H167.928V0H249.15C253.982 0 258.526 0.551657 262.783 1.65497C267.04 2.75828 270.76 4.59714 273.943 7.17154C277.126 9.74594 279.618 13.2627 281.421 17.722C283.223 22.1812 284.124 27.8127 284.124 34.6165C284.124 41.6961 282.974 47.6034 280.673 52.3384C278.372 57.0735 275.131 60.7282 270.951 63.3026C266.771 65.877 261.92 67.532 256.398 68.2675L254.327 68.5434L259.85 71.9912L284.239 94.0575H245.469L220.619 70.6121H198.99V94.0575ZM198.99 31.7203V43.0292H245.699C247.923 43.0292 249.515 42.6155 250.473 41.788C251.432 40.9605 251.911 39.5354 251.911 37.5127C251.911 35.1221 251.432 33.5591 250.473 32.8236C249.515 32.088 247.923 31.7203 245.699 31.7203H198.99Z" fill="currentColor"/><path d="M409.716 78.4732H326.652V52.9591H409.716V78.4732ZM378.538 0L377.618 6.06822L335.396 94.0575H298.121L346.325 0H378.538ZM398.326 94.0575L356.104 6.06822L355.644 0H387.857L436.061 94.0575H398.326Z" fill="currentColor"/><path d="M477.987 60.9581L424.605 0H464.066L493.863 33.2373L523.545 0H562.545L509.049 61.2339V94.0575H477.987V60.9581Z" fill="currentColor"/><path d="M583.269 39.2354H639.703V95.669H583.269V39.2354Z" fill="var(--action-blue)"/></svg><span class="brand-label">DESIGN</span></a><p class="footer-title">One shell for the multichain internet.</p><p class="muted">Unified data APIs, composable mini apps, and interfaces built to keep the chain readable.</p></div><div class="footer-col"><strong>System</strong><a href="#foundations">Foundations</a><a href="#components">Components</a><a href="#patterns">Patterns</a></div><div class="footer-col"><strong>Resources</strong><a href="./DESIGN.md">DESIGN.md</a><a href="./README.md">README.md</a><a href="#top">Back to top</a></div></div><div class="footer-bottom"><span>XRAY/Network Design System · <span class="numeric-glyph">2026</span></span><span>Privacy Policy · Terms of Service</span></div></div></footer>
+  <footer class="mt-10 border-t border-gray-200 py-[50px] dark:border-gray-900"><div class="mx-auto w-[min(1240px,calc(100%-32px))] max-[620px]:w-[calc(100%-24px)]"><div class="grid grid-cols-[2fr_1fr_1fr] gap-8 max-[900px]:grid-cols-2 max-[620px]:grid-cols-1"><div class="max-[900px]:col-span-full max-[620px]:col-auto"><div class="font-mono text-sm font-bold text-gray-950 dark:text-white">XRAY/<span class="text-blue-500">■</span> DESIGN</div><p class="my-[18px] max-w-[420px] text-2xl font-bold leading-[1.1] text-gray-950 dark:text-white">One shell for the multichain internet.</p><p class="text-gray-500">Unified data APIs, composable mini apps, and interfaces built to keep the chain readable.</p></div><div class="grid content-start gap-2.5"><strong class="mb-1 text-gray-950 dark:text-white">System</strong><a class="text-blue-500 no-underline hover:underline dark:text-blue-400" href="#foundations">Foundations</a><a class="text-blue-500 no-underline hover:underline dark:text-blue-400" href="#components">Components</a><a class="text-blue-500 no-underline hover:underline dark:text-blue-400" href="#patterns">Patterns</a></div><div class="grid content-start gap-2.5"><strong class="mb-1 text-gray-950 dark:text-white">Resources</strong><a class="text-blue-500 no-underline hover:underline dark:text-blue-400" href="./DESIGN.md">DESIGN.md</a><a class="text-blue-500 no-underline hover:underline dark:text-blue-400" href="./README.md">README.md</a><a class="text-blue-500 no-underline hover:underline dark:text-blue-400" href="#top">Back to top</a></div></div><div class="mt-11 flex justify-between gap-4 border-t border-gray-200 pt-5 text-xs text-gray-400 dark:border-gray-900 dark:text-gray-600 max-[620px]:flex-col"><span>XRAY/Network Design System · <span class="font-mono">2026</span></span><span>Privacy Policy · Terms of Service</span></div></div></footer>
 
   <script>
     (function () {
       var root = document.documentElement;
       var toggle = document.getElementById('themeToggle');
-      var stored = localStorage.getItem('xray-theme');
-      var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-      function applyTheme() { root.toggleAttribute('data-theme', dark); if (dark) root.setAttribute('data-theme', 'dark'); toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme'); }
-      applyTheme();
-      toggle.addEventListener('click', function () { dark = !dark; localStorage.setItem('xray-theme', dark ? 'dark' : 'light'); applyTheme(); });
-      var copyPrompt = document.getElementById('copyPrompt');
-      copyPrompt.addEventListener('click', function () {
+      function syncThemeLabel() { toggle.setAttribute('aria-label', root.classList.contains('dark') ? 'Switch to light theme' : 'Switch to dark theme'); }
+      syncThemeLabel();
+      toggle.addEventListener('click', function () { root.classList.toggle('dark'); localStorage.setItem('xray-theme', root.classList.contains('dark') ? 'dark' : 'light'); syncThemeLabel(); });
+      var copyButton = document.getElementById('copyPrompt');
+      copyButton.addEventListener('click', function () {
         var prompt = document.getElementById('heroPrompt');
-        var intro = prompt.querySelector('.hero-prompt-copy').textContent.trim();
-        var parameters = Array.from(prompt.querySelectorAll('.prompt-parameters li')).map(function (item) { return '- ' + item.textContent.trim(); });
+        var intro = prompt.querySelector('p').textContent.trim();
+        var parameters = Array.from(prompt.querySelectorAll('li')).map(function (item) { return '- ' + item.textContent.trim(); });
         var text = intro + '\n\n' + parameters.join('\n');
-        var copied = navigator.clipboard && window.isSecureContext
-          ? navigator.clipboard.writeText(text)
-          : new Promise(function (resolve) { var field = document.createElement('textarea'); field.value = text; field.style.position = 'fixed'; field.style.opacity = '0'; document.body.appendChild(field); field.select(); document.execCommand('copy'); field.remove(); resolve(); });
-        copied.then(function () { copyPrompt.classList.add('copied'); copyPrompt.setAttribute('data-tip', 'COPIED'); document.getElementById('copyStatus').textContent = 'Prompt copied'; setTimeout(function () { copyPrompt.classList.remove('copied'); copyPrompt.setAttribute('data-tip', 'COPY'); }, 1400); });
+        var copied = navigator.clipboard && window.isSecureContext ? navigator.clipboard.writeText(text) : new Promise(function (resolve) { var field = document.createElement('textarea'); field.value = text; field.className = 'fixed opacity-0'; document.body.appendChild(field); field.select(); document.execCommand('copy'); field.remove(); resolve(); });
+        copied.then(function () { var tip = document.getElementById('copyTip'); tip.textContent = 'COPIED'; tip.classList.add('opacity-100'); document.getElementById('copyStatus').textContent = 'Prompt copied'; setTimeout(function () { tip.textContent = 'COPY'; tip.classList.remove('opacity-100'); }, 1400); });
       });
-      document.querySelectorAll('.fee').forEach(function (fee) { fee.addEventListener('click', function () { document.querySelectorAll('.fee').forEach(function (item) { item.classList.remove('selected'); }); fee.classList.add('selected'); var amount = fee.textContent.match(/0\.\d+/); document.getElementById('feeValue').textContent = (amount ? amount[0] : '0.17') + ' ADA'; }); });
-      document.getElementById('sendForm').addEventListener('submit', function (event) { event.preventDefault(); var button = event.currentTarget.querySelector('.submit'); var old = button.textContent; button.textContent = 'Transaction ready'; button.classList.add('success'); setTimeout(function () { button.textContent = old; button.classList.remove('success'); }, 1600); });
+      document.querySelectorAll('.fee').forEach(function (fee) { fee.addEventListener('click', function () { document.querySelectorAll('.fee').forEach(function (item) { item.classList.remove('fee-active', 'border-blue-500', 'bg-blue-500/10', 'text-gray-950', 'dark:text-white'); item.classList.add('border-gray-200', 'text-gray-500', 'dark:border-gray-900'); }); fee.classList.remove('border-gray-200', 'text-gray-500', 'dark:border-gray-900'); fee.classList.add('fee-active', 'border-blue-500', 'bg-blue-500/10', 'text-gray-950', 'dark:text-white'); document.getElementById('feeValue').textContent = fee.dataset.fee + ' ADA'; }); });
+      document.getElementById('sendForm').addEventListener('submit', function (event) { event.preventDefault(); var button = event.currentTarget.querySelector('.submit'); var old = button.textContent; button.textContent = 'Transaction ready'; button.classList.remove('bg-blue-500'); button.classList.add('bg-green-500', 'text-gray-950'); setTimeout(function () { button.textContent = old; button.classList.remove('bg-green-500', 'text-gray-950'); button.classList.add('bg-blue-500'); }, 1600); });
     }());
   </script>
 </body>

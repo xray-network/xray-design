@@ -13,17 +13,17 @@ meta:
 colors:
   palette:
     blue:
-      50:  "#ebeefe"
-      100: "#d4dafd"
-      200: "#abb5fb"
-      300: "#657ff3"
-      400: "#3f5ff0"   # hover
-      500: "#1940ed"   # PRIMARY — CTAs, active, brand dot
-      600: "#0f2fbf"   # pressed
-      700: "#0a228f"
-      800: "#061660"
-      900: "#030a30"
-      950: "#010518"
+      50:  "#C3CDFA"
+      100: "#B0BEF9"
+      200: "#8B9EF6"
+      300: "#657FF3"
+      400: "#3F5FF0"   # hover
+      500: "#1940ED"   # PRIMARY — CTAs, active, brand dot
+      600: "#0F2FBF"   # pressed
+      700: "#0B228B"
+      800: "#071657"
+      900: "#030923"
+      950: "#010209"
     gray:
       50:  "#f9fafb"
       100: "#f3f4f6"
@@ -37,22 +37,53 @@ colors:
       900: "#1e2232"   # hairline borders
       950: "#0e0e18"   # panel / card bg
     green:
-      300: "#4eeaa3"
-      500: "#15e4a3"   # primary — success/send/online
-      700: "#0a8862"
-      800: "#075c42"   # success badge bg
+      50:  "#F0FCFA"
+      100: "#E6FCF9"
+      200: "#BEF7EC"
+      300: "#9DF5E2"
+      400: "#54EBC3"
+      500: "#15E4A3"   # primary — success/send/online
+      600: "#10CC8A"
+      700: "#0CAB6B"
+      800: "#07874D"
+      900: "#046635"   # success badge bg
+      950: "#02421E"
     red:
-      300: "#f59999"
-      500: "#fa2c37"   # primary — danger/preview tag
-      700: "#a30c1a"
-      900: "#420409"   # danger badge bg
+      50:  "#FEF3F2"
+      100: "#FFE2E1"
+      200: "#FFCACA"
+      300: "#FFA2A2"
+      400: "#FF6467"
+      500: "#FA2C37"   # primary — danger/preview tag
+      600: "#E7000B"
+      700: "#C10008"
+      800: "#9E0812"
+      900: "#82181A"
+      950: "#460809"   # danger badge bg
     orange:
-      400: "#ff6900"
-      500: "#f85e08"   # chain identity (NIGHT), avatar segments
-      700: "#9a2400"
+      50:  "#FFF7ED"
+      100: "#FFECD4"
+      200: "#FFD6A7"
+      300: "#FFB869"
+      400: "#FF8905"
+      500: "#FF6900"   # chain identity (NIGHT), avatar segments
+      600: "#F54900"
+      700: "#CA3500"
+      800: "#9F2D00"
+      900: "#7F2A0C"
+      950: "#441306"
     yellow:
-      400: "#f7c20b"
-      500: "#f0b000"   # caution, BTC accent, stake saturation
+      50:  "#FEFCE8"
+      100: "#FEF9C2"
+      200: "#FEF186"
+      300: "#FFE020"
+      400: "#FEC700"
+      500: "#F0B000"   # caution, BTC accent, stake saturation
+      600: "#D18700"
+      700: "#A66000"
+      800: "#884B00"
+      900: "#724825"
+      950: "#431F05"
     base:
       white: "#ffffff"
       black: "#000000"
@@ -65,14 +96,14 @@ colors:
     primary:
       accent:       { dark: "#1940ed", light: "#1940ed" }   # blue-500 (brand, both)
       action-accent:{ dark: "#1940ed", light: "#1940ed" }   # primary buttons + logo square
-      link:         { dark: "#535cdc", light: "#535cdc" }   # inline and resource links only
+      link:         { dark: "#3f5ff0", light: "#1940ed" }   # inline and resource links only
       accent-hover: { dark: "#3f5ff0", light: "#3f5ff0" }   # chroma parity across themes
       accent-press: { dark: "#0f2fbf", light: "#0f2fbf" }
       accent-soft:  { dark: "rgba(25,64,237,0.12)", light: "rgba(25,64,237,0.10)" }
-      accent-wash:  { dark: "#0a1840", light: "#ebeefe" }   # selected fee-card fill
+      accent-wash:  { dark: "#071657", light: "#F3F4F6" }   # selected fee-card fill
     secondary:
       bg-chip:      { dark: "#1f2937", light: "#f3f4f6" }
-      bg-hover:     { dark: "#2a3142", light: "#e5e7eb" }
+      bg-hover:     { dark: "#1F2937", light: "#e5e7eb" }
     surfaces:
       bg:        { dark: "#000000", light: "#ffffff" }      # root canvas — exact black / white
       bg-panel:  { dark: "#0e0e18", light: "#ffffff" }      # cards, panels
@@ -96,12 +127,12 @@ colors:
       info:    { dark: "#657ff3", light: "#657ff3" }
     success_solid:    # solid Receive button / green tag
       bg: { dark: "#15e4a3", light: "#15e4a3" }
-      fg: { dark: "#011a0f", light: "#011a0f" }
+      fg: { dark: "#0E0E18", light: "#0E0E18" }
     badges:
-      pos-bg: { dark: "#075c42", light: "#c7f9e1" }
+      pos-bg: { dark: "#046635", light: "#BEF7EC" }
       pos-fg: { dark: "#15e4a3", light: "#15e4a3" }
-      neg-bg: { dark: "#420409", light: "#fee2e2" }
-      neg-fg: { dark: "#f59999", light: "#a30c1a" }
+      neg-bg: { dark: "#460809", light: "#FFE2E1" }
+      neg-fg: { dark: "#FFA2A2", light: "#9E0812" }
     misc:
       dot-ring: { dark: "rgba(0,0,0,0.35)", light: "rgba(255,255,255,0.85)" }
 
@@ -210,11 +241,11 @@ components:
     description: "40×40 round, 4-segment geometric brand mark"
     props: { palette: [ada, btc, night, xray, cool], size: "40px" }
     palettes:
-      ada:   ["#f0b000","#1886ee","#f85e08","#da186f"]
-      btc:   ["#1940ed","#f85e08","#da186f","#ffb869"]
-      night: ["#ffb869","#ca3500","#f85e08","#fa2c37"]
-      xray:  ["#0fb381","#15e4a3","#1940ed","#021"]
-      cool:  ["#1940ed","#15e4a3","#657ff3","#0a228f"]
+      ada:   ["#f0b000","#3F5FF0","#FF6900","#FA2C37"]
+      btc:   ["#1940ed","#FF6900","#FA2C37","#ffb869"]
+      night: ["#ffb869","#ca3500","#FF6900","#fa2c37"]
+      xray:  ["#0CAB6B","#15e4a3","#1940ed","#0E0E18"]
+      cool:  ["#1940ed","#15e4a3","#657ff3","#0B228B"]
     states: [static]
   AssetRow:
     geometry: { height: "60px", radius: "100px", padding: "0 18px 0 10px", avatar: "40px", text: "17px" }
@@ -246,7 +277,7 @@ components:
         standard: { note: "~20 s",  fee: "0.17 ADA" }
         fast:     { note: "~5 s",   fee: "0.42 ADA" }
       states:
-        selected:   { bg: "#0a1840", border: "1px blue-500", radio: "4px blue-500 ring" }
+        selected:   { bg: "#071657", border: "1px blue-500", radio: "4px blue-500 ring" }
         unselected: { bg: transparent, border: "1px gray-900", radio: "2px gray-600 ring" }
     badges:
       secured: { bg: green-800, text: green-500, icon: shield-check }
@@ -269,7 +300,7 @@ iconography:
 XRAY/Network is a multi-blockchain mini app hub — a single shell hosting a catalog of crypto mini apps, backed by a crypto API provider (unified on-chain data APIs across multiple chains) and a mini app builder for composing new apps on top of them. The design language treats balances, addresses, and data tables as the subject: the UI recedes into hairline-bordered panels on pure black, and chroma comes from the content itself (token tickers, deltas, the geometric account avatars), not from decoration. Capsule geometry, a systematic mono "machine voice" for on-chain data, and a price-tag treatment for numerics define the feel.
 
 **At a glance:**
-- Pure-black immersive theme — `#000` → `#0e0e18` → `#1f2937`
+- Pure-black immersive theme — `#000000` → `#0e0e18` → `#1f2937`
 - XRAY Blue (`#1940ed`) is the *only* brand accent — functional, never decorative
 - Green (`#15e4a3`) is the "do-it" color — send, receive, online, success
 - System sans-serif stack for UI; system monospace stack for addresses, hashes, tokens
@@ -284,13 +315,13 @@ XRAY/Network is a multi-blockchain mini app hub — a single shell hosting a cat
 
 All tokens are in the YAML frontmatter under `colors`. Roles:
 
-**Primary** — `accent` and `action-accent` (`#1940ed`) drive CTAs, the logo square, active nav, selected chips, and brand states in both themes. Hover uses `#3f5ff0`; press uses `#0f2fbf`. The secondary blue `link` (`#535cdc`) is reserved exclusively for inline and resource links; it must never fill buttons, tags, selected states, or the logo square. Use blue sparingly — at most one action accent per visual region.
+**Primary** — `accent` and `action-accent` (`#1940ed`) drive CTAs, the logo square, active nav, selected chips, and brand states in both themes. Hover uses `#3f5ff0`; press uses `#0f2fbf`. The semantic `link` color uses `#1940ed` in light mode and `#3f5ff0` in dark mode. It is reserved exclusively for inline and resource links; it must never fill buttons, tags, selected states, or the logo square. Use blue sparingly — at most one action accent per visual region.
 
-**Secondary** — `bg-chip` (`#1f2937`) is the neutral surface for gray buttons and selected chips; `bg-hover` (`#2a3142`) is its hover.
+**Secondary** — `bg-chip` (`#1f2937`) is the neutral surface for gray buttons and selected chips; `bg-hover` (`#1F2937`) is its hover.
 
-**Accent / status** — Green (`#15e4a3`) for success/send/online; Red (`#fa2c37`) for danger and the `preview` testnet tag; Orange (`#f85e08`) for chain identity (NIGHT) and avatar segments; Yellow (`#f0b000`) for caution and the BTC accent.
+**Accent / status** — Green (`#15e4a3`) for success/send/online; Red (`#fa2c37`) for danger and the `preview` testnet tag; Orange (`#FF6900`) for chain identity (NIGHT) and avatar segments; Yellow (`#f0b000`) for caution and the BTC accent.
 
-**Surfaces** layer in exactly three steps: `bg` (`#000`) → `bg-panel` (`#0e0e18`) → `bg-chip` (`#1f2937`). Nothing else.
+**Surfaces** layer in exactly three steps: `bg` (`#000000`) → `bg-panel` (`#0e0e18`) → `bg-chip` (`#1f2937`). Nothing else.
 
 **Foreground** runs four contrast steps: `fg-1` white headings → `fg-2` (`#d1d5db`) secondary → `fg-3` (`#6e758d`) meta → `fg-4` (`#55556d`) low-contrast footer/`id:`.
 
@@ -355,7 +386,7 @@ The system ships **two themes**. **Light is the default** and applies with no at
 
 **Canvas rule:** the root canvas must use exact white (`#ffffff`) in light theme and exact black (`#000000`) in dark theme. Do not substitute off-white, near-black, or tinted canvas colors.
 
-**Blue usage rule:** primary buttons and the logo square must use electric blue (`#1940ed`) in both light and dark themes. `#535cdc` is link-only and may be used for inline or resource links; never use it for buttons, tags, selected states, data marks, or the logo square. Neutral navigation links may remain on the foreground ramp.
+**Blue usage rule:** primary buttons and the logo square must use electric blue (`#1940ed`) in both light and dark themes. Inline and resource links use `#1940ed` in light mode and `#3f5ff0` in dark mode; never use the dark link color for buttons, tags, selected states, data marks, or the logo square. Neutral navigation links may remain on the foreground ramp.
 
 | Token | Dark | Light | Why |
 |-------|------|-------|-----|
@@ -363,7 +394,7 @@ The system ships **two themes**. **Light is the default** and applies with no at
 | `--bg-panel` | `#0e0e18` | `#ffffff` | Panel stays brighter than page |
 | `--bg-chip` | `#1f2937` | `#f3f4f6` | Chips / gray buttons |
 | `--border` | `#1e2232` | `#e5e7eb` | Hairline steps up to read on white |
-| `--fg-1` / `--fg-2` | `#fff` / `#d1d5db` | `#0e0e18` / `#374151` | Inverted text ramp |
+| `--fg-1` / `--fg-2` | `#FFFFFF` / `#d1d5db` | `#0e0e18` / `#374151` | Inverted text ramp |
 | `--accent-hover` / `-press` | `#3f5ff0` / `#0f2fbf` | `#3f5ff0` / `#0f2fbf` | Keep action blue behavior identical across themes |
 | `--success` | `#15e4a3` | `#15e4a3` | Keep semantic green identical across themes |
 | `--danger` / `--warning` | `#fa2c37` / `#f0b000` | `#fa2c37` / `#f0b000` | Keep semantic red/yellow identical across themes |
@@ -371,7 +402,7 @@ The system ships **two themes**. **Light is the default** and applies with no at
 
 **Theme parity notes:**
 - **Both themes remain shadow-free.** Light mode uses its stronger `#e5e7eb` hairline to preserve component boundaries on white surfaces.
-- **Brand, action, and status chroma remain the same** in both themes. Buttons and the logo square use `#1940ed`; link-only text uses `#535cdc`; status colors retain their existing green, red, yellow, and orange values.
+- **Brand, action, and status chroma remain the same** in both themes. Buttons and the logo square use `#1940ed`; link-only text uses `#1940ed` in light mode and `#3f5ff0` in dark mode; status colors retain their existing green, red, yellow, and orange values.
 - The solid **Receive / success** button keeps the same bright fill + dark ink treatment in both themes.
 
 Vivid **Tag** fills (`preview` red, `mainnet` blue, `beta` yellow) are loud labels by design and stay on the same brand palette in both themes — only their dot-ring adapts.
@@ -392,7 +423,7 @@ Full anatomy, variants, and states are in the frontmatter under `components`. Su
 
 **BalanceCard** — the price-tag numeral in a `20px` panel: uppercase label, 64px Black integer, dropped 36px fraction, 20px ticker.
 
-**PaymentForm** — rich send form in a `460px` panel: from-account chip, to-address input, asset `<select>`, amount with MAX + ticker, a three-up **fee radio-card** group (Slow/Standard/Fast, each ETA + fee — selected card gets `#0a1840` fill + blue border + filled radio), optional note, total-with-fee summary, a `48px` blue Send CTA, and a green **Secured** shield badge + footnote.
+**PaymentForm** — rich send form in a `460px` panel: from-account chip, to-address input, asset `<select>`, amount with MAX + ticker, a three-up **fee radio-card** group (Slow/Standard/Fast, each ETA + fee — selected card gets `#071657` fill + blue border + filled radio), optional note, total-with-fee summary, a `48px` blue Send CTA, and a green **Secured** shield badge + footnote.
 
 ---
 
@@ -421,7 +452,7 @@ Terse, technical, second-person. The product addresses "you / your" and never sa
 ## 9. Do's and Don'ts
 
 ### Do
-- Build on pure black — `#000` → `#0e0e18` → `#1f2937`; depth through shade
+- Build on pure black — `#000000` → `#0e0e18` → `#1f2937`; depth through shade
 - Use XRAY Blue only for actions, active states, and the brand dot — one blue element per region
 - Use Green for the functional "do-it" role (send, receive, online, success)
 - Pill everything — `100px` buttons/chips/rows, `50%` avatars
