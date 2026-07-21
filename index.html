@@ -72,11 +72,16 @@
     .hero-copy { max-width: 610px; color: var(--fg-2); font-size: 17px; line-height: 1.55; }
     .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
     .hero-note { margin-top: 18px; color: var(--fg-3); font: 500 12px/1.4 var(--mono); }
-    .hero-prompt { max-width: 610px; margin-top: 40px; padding: 16px 18px 18px; border: 1px solid var(--border); border-radius: 20px; background: var(--panel); }
-    .hero-prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .prompt-section { padding: 76px 0; border-top: 1px solid var(--border); }
+    .hero-prompt { padding: 24px; border: 1px solid var(--border); border-radius: 20px; background: var(--panel); }
+    .hero-prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
     .hero-prompt-label { color: var(--fg-3); font: 500 11px/1 var(--mono); letter-spacing: .1em; }
-    .hero-prompt-copy { margin: 0; color: var(--fg-2); font: 500 12px/1.6 var(--mono); }
+    .hero-prompt-copy { max-width: 900px; margin: 0; color: var(--fg-2); font: 500 13px/1.65 var(--mono); }
     .hero-prompt-copy a { color: var(--link); text-decoration: none; overflow-wrap: anywhere; }
+    .prompt-parameters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--border); list-style: none; }
+    .prompt-parameters li { position: relative; padding: 10px 0 10px 22px; color: var(--fg-2); font: 500 13px/1.5 var(--mono); border-bottom: 1px solid var(--border-soft); }
+    .prompt-parameters li::before { content: ""; position: absolute; left: 0; top: 16px; width: 8px; height: 8px; border: 2px solid var(--blue); border-radius: 50%; }
+    .prompt-parameters strong { color: var(--fg); }
     .copy-control { width: 32px; height: 32px; flex: none; position: relative; display: grid; place-items: center; padding: 0; border: 1px solid var(--border); border-radius: 50%; background: var(--chip); color: var(--fg); cursor: pointer; }
     .copy-control:hover { background: var(--chip-hover); }
     .copy-control svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
@@ -214,6 +219,9 @@
       .nav-inner { gap: 10px; }
       .theme-toggle { margin-left: auto; }
       h1 { font-size: 48px; }
+      .prompt-section { padding: 56px 0; }
+      .hero-prompt { padding: 18px; }
+      .prompt-parameters { grid-template-columns: 1fr; }
       section.spec { padding: 56px 0; }
       .palette, .semantic-grid, .component-grid, .rules-grid, .radius-grid { grid-template-columns: 1fr; }
       .component-cell.wide { grid-column: auto; }
@@ -235,7 +243,7 @@
     <div class="shell nav-inner">
       <a class="brand" href="#top" aria-label="XRAY Design"><svg class="brand-logo" viewBox="0 0 640 96" aria-hidden="true"><path d="M69.3727 32.6864L102.506 0.000732422H147.259L88.0101 57.6489L80.4171 60.5451L46.3635 94.0582H0.345138L59.8238 37.3755L69.3727 32.6864ZM0 0.000732422H46.5936L79.0365 32.4106L88.9305 37.5134L147.489 94.0582H100.435L66.1514 59.7176L56.1424 54.4768L0 0.000732422Z" fill="currentColor"/><path d="M198.99 94.0575H167.928V0H249.15C253.982 0 258.526 0.551657 262.783 1.65497C267.04 2.75828 270.76 4.59714 273.943 7.17154C277.126 9.74594 279.618 13.2627 281.421 17.722C283.223 22.1812 284.124 27.8127 284.124 34.6165C284.124 41.6961 282.974 47.6034 280.673 52.3384C278.372 57.0735 275.131 60.7282 270.951 63.3026C266.771 65.877 261.92 67.532 256.398 68.2675L254.327 68.5434L259.85 71.9912L284.239 94.0575H245.469L220.619 70.6121H198.99V94.0575ZM198.99 31.7203V43.0292H245.699C247.923 43.0292 249.515 42.6155 250.473 41.788C251.432 40.9605 251.911 39.5354 251.911 37.5127C251.911 35.1221 251.432 33.5591 250.473 32.8236C249.515 32.088 247.923 31.7203 245.699 31.7203H198.99Z" fill="currentColor"/><path d="M409.716 78.4732H326.652V52.9591H409.716V78.4732ZM378.538 0L377.618 6.06822L335.396 94.0575H298.121L346.325 0H378.538ZM398.326 94.0575L356.104 6.06822L355.644 0H387.857L436.061 94.0575H398.326Z" fill="currentColor"/><path d="M477.987 60.9581L424.605 0H464.066L493.863 33.2373L523.545 0H562.545L509.049 61.2339V94.0575H477.987V60.9581Z" fill="currentColor"/><path d="M583.269 39.2354H639.703V95.669H583.269V39.2354Z" fill="var(--action-blue)"/></svg><span class="brand-label">DESIGN</span></a>
       <div class="nav-links">
-        <a href="#foundations">Foundations</a><a href="#type">Type</a><a href="#components">Components</a><a href="#patterns">Patterns</a><a href="#rules">Rules</a>
+        <a href="#prompt">Prompt</a><a href="#foundations">Foundations</a><a href="#type">Type</a><a href="#components">Components</a><a href="#patterns">Patterns</a><a href="#rules">Rules</a>
       </div>
       <a class="button small" href="./DESIGN.md">Open DESIGN.md</a>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme">
@@ -253,11 +261,6 @@
         <p class="hero-copy">The interface language behind XRAY/Network: a multi-chain mini app hub built for balances, transactions, addresses, and the people who need to trust every number they see.</p>
         <div class="hero-actions"><a class="button" href="./DESIGN.md">Open DESIGN.md</a><a class="button secondary" href="./README.md">Read the overview</a></div>
         <p class="hero-note">QUIET CANVAS / ELECTRIC BLUE / MACHINE-READABLE DATA</p>
-        <div class="hero-prompt">
-          <div class="hero-prompt-head"><span class="hero-prompt-label">PROMPT / XRAY INTERFACE</span><button class="copy-control" id="copyPrompt" type="button" data-tip="COPY" aria-label="Copy design prompt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/></svg></button></div>
-          <p class="hero-prompt-copy" id="heroPrompt">Create a responsive XRAY/Network interface for multichain portfolio activity and asset transfers. Use <a href="https://design.xraynetwork.io/DESIGN.md">https://design.xraynetwork.io/DESIGN.md</a> as the single source of truth for colors, typography, components, light and dark themes, spacing, and interaction states. You can use the demo page at <a href="https://design.xraynetwork.io/index.html">https://design.xraynetwork.io/index.html</a> as a visual reference.</p>
-          <span class="sr-only" id="copyStatus" aria-live="polite"></span>
-        </div>
       </div>
       <div class="balance-card" aria-label="Example portfolio balance">
         <div class="balance-top"><span class="balance-label">Portfolio balance</span><span class="tag blue">Mainnet</span></div>
@@ -266,6 +269,27 @@
         <div class="spark" aria-label="Portfolio activity chart"><i style="--h:34%"></i><i style="--h:57%;--bar:var(--blue)"></i><i style="--h:29%"></i><i style="--h:71%"></i><i style="--h:46%"></i><i style="--h:83%;--bar:var(--blue)"></i><i style="--h:38%"></i><i style="--h:64%"></i><i style="--h:92%;--bar:var(--blue)"></i><i style="--h:53%"></i><i style="--h:76%"></i><i style="--h:44%"></i><i style="--h:88%;--bar:var(--blue)"></i><i style="--h:61%"></i><i style="--h:100%;--bar:var(--blue)"></i><i style="--h:69%"></i></div>
       </div>
     </div>
+
+    <section class="prompt-section" id="prompt"><div class="shell">
+      <div class="section-head"><div class="section-label">PROMPT / MINI APP</div><div><h2 class="section-heading">Start with the system already decided.</h2><p class="section-intro">Copy this brief when generating or building an XRAY mini app. It carries the essential layout, behavior, and product constraints with it.</p></div></div>
+      <div class="hero-prompt">
+        <div class="hero-prompt-head"><span class="hero-prompt-label">XRAY INTERFACE BRIEF</span><button class="copy-control" id="copyPrompt" type="button" data-tip="COPY" aria-label="Copy design prompt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/></svg></button></div>
+        <div id="heroPrompt">
+          <p class="hero-prompt-copy">Create a responsive XRAY/Network mini app for multichain portfolio activity and asset transfers. Use <a href="https://design.xraynetwork.io/DESIGN.md">https://design.xraynetwork.io/DESIGN.md</a> as the single source of truth for colors, typography, components, themes, spacing, and interaction states. Use <a href="https://design.xraynetwork.io/index.html">https://design.xraynetwork.io/index.html</a> as a visual reference.</p>
+          <ul class="prompt-parameters">
+            <li><strong>Layout:</strong> centered content with a max-width of 1240px and responsive side gutters.</li>
+            <li><strong>Purpose:</strong> keep each mini app focused on one clear job and one primary action.</li>
+            <li><strong>Responsive:</strong> support phone, tablet, and desktop without horizontal overflow.</li>
+            <li><strong>Themes:</strong> provide complete light and dark modes using semantic tokens.</li>
+            <li><strong>Context:</strong> always show the active wallet, account, network, and selected asset where relevant.</li>
+            <li><strong>States:</strong> include loading, empty, error, success, disabled, hover, focus, and pressed states.</li>
+            <li><strong>Data:</strong> use mono type for addresses, hashes, tickers, fees, and machine-readable values.</li>
+            <li><strong>Access:</strong> ensure keyboard navigation, visible focus, clear labels, and touch targets of at least 40px.</li>
+          </ul>
+        </div>
+        <span class="sr-only" id="copyStatus" aria-live="polite"></span>
+      </div>
+    </div></section>
 
     <section class="spec" id="foundations"><div class="shell">
       <div class="section-head"><div class="section-label">01 — Color system</div><div><h2 class="section-heading">Pure structure. One functional accent.</h2><p class="section-intro">Three surface levels create depth. Blue marks action and selection; green, red, yellow, and orange communicate network state and asset identity.</p></div></div>
@@ -351,7 +375,10 @@
       toggle.addEventListener('click', function () { dark = !dark; localStorage.setItem('xray-theme', dark ? 'dark' : 'light'); applyTheme(); });
       var copyPrompt = document.getElementById('copyPrompt');
       copyPrompt.addEventListener('click', function () {
-        var text = document.getElementById('heroPrompt').textContent.trim();
+        var prompt = document.getElementById('heroPrompt');
+        var intro = prompt.querySelector('.hero-prompt-copy').textContent.trim();
+        var parameters = Array.from(prompt.querySelectorAll('.prompt-parameters li')).map(function (item) { return '- ' + item.textContent.trim(); });
+        var text = intro + '\n\n' + parameters.join('\n');
         var copied = navigator.clipboard && window.isSecureContext
           ? navigator.clipboard.writeText(text)
           : new Promise(function (resolve) { var field = document.createElement('textarea'); field.value = text; field.style.position = 'fixed'; field.style.opacity = '0'; document.body.appendChild(field); field.select(); document.execCommand('copy'); field.remove(); resolve(); });

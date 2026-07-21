@@ -154,8 +154,9 @@ spacing:
     space-12: "48px"
     space-16: "64px"
   layout:
+    content_max_width: "1240px"
+    content_gutter: "16px"   # 12px below 620px
     sidebar_width: "265px"
-    content_gutter: "16px"
     panel_inset: "11px"
 
 radius:
