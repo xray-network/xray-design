@@ -4,6 +4,8 @@ export default defineConfig({
   root: "src/pages",
   outDir: "build/design",
   base: "/design/",
+  siteOrigin: "https://wiki.xraynetwork.io",
+  icon: "https://cdn.xraynetwork.io/favicon.png",
   themeDir: "src/theme",
   title: "XRAY Design",
   description: "The portable interface standard for XRAY products.",
@@ -12,14 +14,8 @@ export default defineConfig({
     darkMode: "auto",
     enableAppearanceAnimation: false,
     nav: [
-      { text: "Wiki", link: "https://wiki.xraynetwork.io/" },
-      { text: "XRAY Design", link: "/" },
       { text: "Components", link: "/components/" },
-      { text: "Versioning", link: "/versioning" },
-      { text: "Protocol", link: "/protocol/" },
-      { text: "XRAY JS", link: "https://wiki.xraynetwork.io/xray-js/" },
-      { text: "Cardano Lib", link: "https://wiki.xraynetwork.io/cardano-lib/" },
-      { text: "DESIGN.md", link: "https://wiki.xraynetwork.io/design/DESIGN.md" }
+      { text: "GitHub", link: "https://github.com/xray-network/design" }
     ],
     sidebar: {
       "/": [

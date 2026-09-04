@@ -7,7 +7,6 @@ const repositoryRoot = resolve(scriptDirectory, "../..")
 const sourceRoot = join(repositoryRoot, "protocol")
 const publicRoot = join(repositoryRoot, "docs/src/pages/public")
 const destinationRoot = join(publicRoot, "protocol")
-const homepagePath = join(repositoryRoot, "docs/src/pages/index.md")
 const componentCatalogPath = resolve(scriptDirectory, "../reference/components.json")
 const componentSchemaPath = resolve(scriptDirectory, "../reference/components.schema.json")
 const releasePattern = /^v(\d+)\.(\d+)\.(\d+)$/
@@ -89,8 +88,7 @@ await Promise.all([
     join(publicRoot, "manifest.json"),
     `${JSON.stringify(referenceManifest, null, 2)}\n`
   ),
-  cp(latestStandardPath, join(publicRoot, "DESIGN.md")),
-  cp(latestStandardPath, homepagePath)
+  cp(latestStandardPath, join(publicRoot, "DESIGN.md"))
 ])
 
 console.log(`Published ${releases.length} design release${releases.length === 1 ? "" : "s"}.`)

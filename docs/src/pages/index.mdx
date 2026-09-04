@@ -1,0 +1,134 @@
+---
+pageType: custom
+title: XRAY Design
+description: The portable interface standard for XRAY products.
+---
+
+<main className="xray-landing" id="top">
+  <section className="xray-hero xray-shell">
+    <div>
+      <div className="xray-kicker"><span className="xray-status-dot" />Open standard · interface ready</div>
+      <h1>Turn a visual language into an implementation contract.</h1>
+      <p className="xray-lead">A portable source of truth for tokens, layout, components, responsive behavior, accessibility, themes, voice, and interaction states.</p>
+      <div className="xray-actions">
+        <a className="xray-button xray-button--primary" href="#adopt">Adopt XRAY Design</a>
+        <a className="xray-button xray-button--secondary" href="./components/">Explore components</a>
+      </div>
+    </div>
+
+    <aside className="xray-summary" aria-label="XRAY Design release summary">
+      <div className="xray-summary__head"><span>XRAY Design</span><strong>Released</strong></div>
+      <div className="xray-summary__metric">1.0<span>VERSION</span></div>
+      <div className="xray-summary__rows">
+        <div><span>Standard</span><code>xray/design</code></div>
+        <div><span>Themes</span><code>LIGHT · DARK</code></div>
+        <div><span>Reference</span><code>06 COMPONENTS</code></div>
+      </div>
+    </aside>
+  </section>
+
+  <section className="xray-section" id="system">
+    <div className="xray-shell xray-section-grid">
+      <div className="xray-section-label">01 — Design standard</div>
+      <div>
+        <div className="xray-section-heading">
+          <div className="xray-kicker"><span className="xray-status-dot" />Content first · system governed</div>
+          <h2>One quiet canvas. One electric blue. Data is the color.</h2>
+          <p>XRAY Design turns interface decisions into explicit rules that humans and coding agents can apply and verify consistently.</p>
+        </div>
+
+        <div className="xray-split">
+          <div className="xray-panel xray-steps">
+            <h3>How to apply the system</h3>
+            <details open>
+              <summary><span className="xray-step-no">01</span><strong>Read and inspect</strong><span aria-hidden="true">+</span></summary>
+              <p>Read the complete standard, then inspect the existing interface before choosing components, tokens, or layout changes.</p>
+            </details>
+            <details>
+              <summary><span className="xray-step-no">02</span><strong>Implement the contract</strong><span aria-hidden="true">+</span></summary>
+              <p>Apply semantic tokens, capsule geometry, component behavior, responsive rules, accessible states, and the XRAY product voice.</p>
+            </details>
+            <details>
+              <summary><span className="xray-step-no">03</span><strong>Validate conformance</strong><span aria-hidden="true">+</span></summary>
+              <p>Check both themes, keyboard focus, target breakpoints, content states, and the no-shadow and no-gradient rules.</p>
+            </details>
+          </div>
+
+          <aside className="xray-panel xray-panel--soft">
+            <span className="xray-panel-label">System signature</span>
+            <div className="xray-token-list">
+              <div><i className="xray-swatch xray-swatch--blue" /><span><strong>Action blue</strong><small>#1940ED</small></span></div>
+              <div><i className="xray-swatch xray-swatch--green" /><span><strong>Functional green</strong><small>#15E4A3</small></span></div>
+              <div><i className="xray-radius-sample" /><span><strong>Capsule geometry</strong><small>20PX · 100PX</small></span></div>
+              <div><i className="xray-type-sample">Aa</i><span><strong>Human + machine voice</strong><small>SANS · MONO</small></span></div>
+            </div>
+            <p className="xray-note">Depth comes from surface steps and hairline borders—never shadows, glows, or gradients.</p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section className="xray-section" id="adopt">
+    <div className="xray-shell xray-section-grid">
+      <div className="xray-section-label">02 — Adoption</div>
+      <div>
+        <div className="xray-section-heading">
+          <h2>Keep the complete standard beside the product.</h2>
+          <p>Pin the immutable Markdown release so every contributor uses the same interface contract.</p>
+        </div>
+        <div className="xray-split">
+          <div className="xray-panel">
+            <span className="xray-panel-label">Download</span>
+            <h3>Pin version 1.0.0</h3>
+            <pre className="xray-code"><code>curl -fsSLo DESIGN.md https://wiki.xraynetwork.io/design/protocol/v1.0.0/DESIGN.md</code></pre>
+          </div>
+          <div className="xray-panel xray-panel--soft">
+            <span className="xray-panel-label">Agent prompt</span>
+            <h3>Apply it as the source of truth</h3>
+            <p>Read <code>DESIGN.md</code> completely before creating or changing product interfaces. Preserve existing repository instructions and add the XRAY standard pointer to <code>AGENTS.md</code>.</p>
+            <a className="xray-text-link" href="./protocol/">Open the immutable release →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section className="xray-section" id="components">
+    <div className="xray-shell xray-section-grid">
+      <div className="xray-section-label">03 — Components</div>
+      <div>
+        <div className="xray-section-heading">
+          <h2>Reference behavior, not decoration.</h2>
+          <p>Each specimen exposes anatomy, variants, interaction states, accessibility requirements, and both supported themes.</p>
+        </div>
+        <div className="xray-component-grid">
+          <a href="./components/button"><span>01</span><strong>Button</strong><small>Actions and states</small></a>
+          <a href="./components/tag"><span>02</span><strong>Tag / Badge</strong><small>Status and deltas</small></a>
+          <a href="./components/account-avatar"><span>03</span><strong>Account Avatar</strong><small>Geometric identity</small></a>
+          <a href="./components/asset-row"><span>04</span><strong>Asset Row</strong><small>Identity and balance</small></a>
+          <a href="./components/balance-card"><span>05</span><strong>Balance Card</strong><small>Price-tag numerics</small></a>
+          <a href="./components/payment-form"><span>06</span><strong>Payment Form</strong><small>Complete composition</small></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section className="xray-section">
+    <div className="xray-shell xray-section-grid">
+      <div className="xray-section-label">04 — Operating idea</div>
+      <div className="xray-operating-grid">
+        <article><span>01 / DEFINE</span><h3>Use semantic tokens</h3><p>Color, spacing, type, radius, and motion express roles rather than one-off values.</p></article>
+        <article><span>02 / COMPOSE</span><h3>Build from contracts</h3><p>Components carry explicit anatomy and behavior across screens and themes.</p></article>
+        <article><span>03 / VERIFY</span><h3>Review visible behavior</h3><p>Validate accessibility, responsive layouts, content states, and theme parity.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <footer className="xray-footer">
+    <div className="xray-shell">
+      <div><strong>XRAY Design</strong><p>A quiet canvas where the data stays in focus.</p></div>
+      <div><a href="./protocol/">Protocol</a><a href="https://github.com/xray-network/design">GitHub</a><a href="#top">Back to top</a></div>
+    </div>
+  </footer>
+</main>

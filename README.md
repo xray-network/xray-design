@@ -57,7 +57,8 @@ npm run deploy
 
 The documentation build validates that root `DESIGN.md` matches the latest immutable release,
 then publishes the rendered protocol, component specimens, released source files, and
-machine-readable manifests. Do not edit generated copies under `docs/src/pages`.
+machine-readable manifests. Generated release files live only under `docs/src/pages/public/`;
+the landing page at `docs/src/pages/index.mdx` is maintained source.
 
 The production React components live in a separate `xray-ui` repository. The specimens here are
 documentation-only references until `@xray-network/xray-ui` is published; after that, the docs
