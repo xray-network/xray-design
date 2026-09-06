@@ -51,16 +51,7 @@ for (const release of releases) {
 const latest = manifest.at(-1)
 const latestRelease = releases.at(-1)
 const latestStandardPath = join(sourceRoot, latestRelease, "DESIGN.md")
-const [latestStandard, rootStandard, componentCatalogSource] = await Promise.all([
-  readFile(latestStandardPath, "utf8"),
-  readFile(join(repositoryRoot, "DESIGN.md"), "utf8"),
-  readFile(componentCatalogPath, "utf8")
-])
-
-if (rootStandard !== latestStandard) {
-  throw new Error(`Root DESIGN.md must match the latest release (${latestRelease}).`)
-}
-
+const componentCatalogSource = await readFile(componentCatalogPath, "utf8")
 const componentCatalog = JSON.parse(componentCatalogSource)
 
 if (componentCatalog.protocol.version !== latest.version) {

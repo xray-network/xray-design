@@ -1,7 +1,7 @@
 # Protocol releases
 
 Each published release directory is immutable. Applications should adopt a complete versioned URL
-rather than the floating root `DESIGN.md` URL.
+rather than the floating `/design/DESIGN.md` download URL.
 
 ## 1.0.0
 

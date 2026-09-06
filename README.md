@@ -2,8 +2,8 @@
 
 The portable interface protocol and visual component reference for XRAY products.
 
-[`DESIGN.md`](./DESIGN.md) mirrors the current design standard for convenient repository-level
-access. Immutable releases under `protocol/` define the tokens, layout, components, responsive
+The current design standard is [`protocol/v1.0.0/DESIGN.md`](./protocol/v1.0.0/DESIGN.md).
+Immutable releases under `protocol/` define the tokens, layout, components, responsive
 behavior, accessibility, themes, voice, and interaction states used across XRAY interfaces.
 
 ## Published resources
@@ -16,7 +16,6 @@ behavior, accessibility, themes, voice, and interaction states used across XRAY 
 
 ```text
 .
-├── DESIGN.md
 ├── protocol/
 │   └── v1.0.0/
 │       └── DESIGN.md
@@ -55,9 +54,10 @@ Deploy the documentation site to `https://wiki.xraynetwork.io/design/`:
 npm run deploy
 ```
 
-The documentation build validates that root `DESIGN.md` matches the latest immutable release,
-then publishes the rendered protocol, component specimens, released source files, and
-machine-readable manifests. Generated release files live only under `docs/src/pages/public/`;
+The documentation build validates the versioned releases and publishes the rendered protocol,
+component specimens, released source files, and machine-readable manifests. It generates the
+current-release `/design/DESIGN.md` download from the latest release under `protocol/`.
+Generated release files live only under `docs/src/pages/public/`;
 the landing page at `docs/src/pages/index.mdx` is maintained source.
 
 The production React components live in a separate `xray-ui` repository. The specimens here are
